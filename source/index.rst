@@ -15,6 +15,7 @@ NoSQL - Linked Data
    nosql-factorisatie.rst
    linkeddata.rst
    linkeddata-types.rst
+   linkeddata-mongodb.rst
    linked-data-vervolg.rst
    todo.rst
 
