@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>MongoDB factorisatie &#8212; NoSQL-LD  documentatie</title>
+    <title>Linked Data en MongoDB &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -17,8 +17,8 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
-    <link rel="next" title="Linked Data" href="linkeddata.html" />
-    <link rel="prev" title="MongoDB schema" href="nosql-schema.html" />
+    <link rel="next" title="Linked Data: vervolg" href="linked-data-vervolg.html" />
+    <link rel="prev" title="Types in Linked Data" href="linkeddata-types.html" />
 
 <script type="application/json" class="js-hypothesis-config">
 {
@@ -48,10 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="ten-geleide.html">Ten geleide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MongoDB factorisatie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-factorisatie.html">MongoDB factorisatie</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="linkeddata-mongodb.html">Linked Data en MongoDB</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linked Data en MongoDB</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linked-data-vervolg.html">Linked Data: vervolg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo</a></li>
 </ul>
@@ -60,8 +60,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="nosql-schema.html" title="vorig hoofdstuk">MongoDB schema</a></li>
-      <li>Next: <a href="linkeddata.html" title="volgend hoofdstuk">Linked Data</a></li>
+      <li>Previous: <a href="linkeddata-types.html" title="vorig hoofdstuk">Types in Linked Data</a></li>
+      <li>Next: <a href="linked-data-vervolg.html" title="volgend hoofdstuk">Linked Data: vervolg</a></li>
   </ul></li>
 </ul>
 </div>
@@ -83,28 +83,56 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="mongodb-factorisatie">
-<h1>MongoDB factorisatie<a class="headerlink" href="#mongodb-factorisatie" title="Permalink naar deze titel">¶</a></h1>
+  <div class="section" id="linked-data-en-mongodb">
+<h1>Linked Data en MongoDB<a class="headerlink" href="#linked-data-en-mongodb" title="Permalink naar deze titel">¶</a></h1>
+<div class="admonition-nog-uit-te-werken admonition">
+<p class="first admonition-title">Nog uit te werken</p>
+<p class="last">NB: het onderstaande moet nog verder uitgewerkt worden.</p>
+</div>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Te doen</p>
-<ul class="last simple">
-<li>factorisatie/normalisatie MongoDB uitwerken</li>
-</ul>
+<p class="last">Hoe gebruik je linked data in combinatie met MongoDB?</p>
 </div>
 <ul class="simple">
-<li>keuze: embedden vs. referenties; wanneer kies je waarvoor?</li>
-<li>belangrijke overweging: snelheid van toegang (embedding) vs. eenvoud van update (referenties)</li>
+<li>context hoeft niet embedded te zijn: door reference <em>sharing</em> van gemeenschappelijke context</li>
+<li>NB: context beschrijft niet welke velden aanwezig (moeten) zijn; deze beschrijft alleen de interpretatie van de velden.</li>
+<li>dit is een verschil met een schema:; dat beschrijft welke velden aanwezig moeten zijn (en geeft niet de interpretatie).</li>
 <li><dl class="first docutils">
-<dt>factorisatie van gemeenschappelijke data, door gebruik van <em>referenties</em> in plaats van <em>embedding</em>.</dt>
+<dt>typering vindt zowel in context als in schema plaats.</dt>
 <dd><ul class="first last">
-<li>je brengt de gemeenschappelijke data “buiten haakjes”)</li>
+<li>bij typering in BSON/MongoDB gaat het vooral om de manier waarop de data opgeslagen worden (en opgezocht);</li>
+<li>bij typering in Linked Data (JSON-LD) gaat het vooral over de interpretatie (meestal van strings).</li>
 </ul>
 </dd>
 </dl>
 </li>
-<li>(vgl. normalisatie van een relationele database)</li>
-<li>doel: consistentie in de <em>data</em> van de database</li>
+<li><dl class="first docutils">
+<dt>gebruik van <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> ook voor MongoDB-ids? - zie <a class="reference external" href="https://www.slideshare.net/gkellogg1/jsonld-and-mongodb">https://www.slideshare.net/gkellogg1/jsonld-and-mongodb</a></dt>
+<dd><ul class="first last">
+<li><code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> is dan de MongoDB-key; dit gebruik je ook voor het opzoeken van documenten in MongoDB.</li>
+<li>vaak: gebruik van aliases voor <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> en <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code>: vereenvoudigt het gebruik in JavaScript/web frameworks.
+(een context beschrijft een reeks aliases)</li>
+<li>voor een key in MongoDB wordt <code class="docutils literal notranslate"><span class="pre">_id</span></code> gebruikt; is dit iets anders dan <code class="docutils literal notranslate"><span class="pre">id</span></code> in de genoemde presentatie?</li>
 </ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>vraag: bevat Schema.org (als context) aliases voor id en type?</dt>
+<dd><ul class="first last">
+<li>ja, zie: <a class="reference external" href="https://schema.org/docs/jsonldcontext.json">https://schema.org/docs/jsonldcontext.json</a></li>
+<li>(deze json krijg je ook via context negotiation van <a class="reference external" href="https://schema.org">https://schema.org</a>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Redefinition of terms in local context?</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span>&quot;@context&quot;: [&quot;http://schema.org&quot;, {
+    &quot;image&quot;: { &quot;@id&quot;: &quot;schema:image&quot;, &quot;@type&quot;: &quot;@id&quot;}
+  }],
+</pre></div>
+</div>
 </div>
 
 
@@ -121,7 +149,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/nosql-factorisatie.rst.txt"
+      <a href="_sources/linkeddata-mongodb.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

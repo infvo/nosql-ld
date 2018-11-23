@@ -10,6 +10,7 @@ NoSQL - Linked Data
    :maxdepth: 2
    :caption: Inhoud:
 
+   ten-geleide.rst
    nosql.rst
    nosql-schema.rst
    nosql-factorisatie.rst
