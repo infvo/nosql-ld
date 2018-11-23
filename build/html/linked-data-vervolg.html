@@ -1,0 +1,175 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Linked Data: vervolg &#8212; NoSQL-LD  documentatie</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Zoeken" href="search.html" />
+    <link rel="prev" title="Linked Data" href="linkeddata.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">NoSQL-LD</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigatie</h3>
+<p class="caption"><span class="caption-text">Inhoud:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-factorisatie.html">MongoDB factorisatie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Linked Data: vervolg</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#factorisatie">Factorisatie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gegevens-met-betekenis">Gegevens met betekenis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linked-data-in-het-web">Linked Data in het web</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="linkeddata.html" title="vorig hoofdstuk">Linked Data</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Snel zoeken</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Zoek" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="linked-data-vervolg">
+<h1>Linked Data: vervolg<a class="headerlink" href="#linked-data-vervolg" title="Permalink naar deze titel">¶</a></h1>
+<p>De eerste stap van Linked Data is het gebruik van globale namen en schema’s.
+Dit maakt de uitwisseling van gegevens en het koppelen van databases mogelijk.</p>
+<p>Maar dat is nog maar het begin:</p>
+<ul class="simple">
+<li>met Linked Data kun je betekenis toevoegen aan gegevens, op zo’n manier dat computers hiermee kunnen “rekenen”.
+Denk bijvoorbeeld aan een bestand met familierelaties: je kunt dan ook queries vragen over relaties die niet direct in de database opgeslagen zijn.</li>
+<li>met Linked Data kun je factorisatie (normalisatie) over databases heen uitvoeren:
+je kunt ervoor zorgen dat gegevens maar 1 maal opgeslagen worden,
+en dat andere databases automatisch deze gegevens gebruikt,
+waardoor een lokale update niet nodig is.
+(Denk bijvoorbeeld hoeveel databases jouw adresgegevens hebben opgeslagen;
+als je verhuist, moeten op de een of andere manier al die databases bijgewerkt worden.)</li>
+<li>met Linked Data kun je ervoor zorgen dan jouw data van jou blijft:
+anderen kunnen jouw data raadplegen als dat nodig is, en als dat van jou mag -
+zonder dat ze een lokale kopie hiervan hoeven bij te houden.
+(In het kader van de privacywetgeving is het bewaren van persoonlijke gegevens veel lastiger geworden:
+met Linked Data hoeft dat niet meer, dan kunnen deze gegevens opgevraagd worden als het nodig is.)
+(<em>Opmerking</em>: het is wel handig als je hierbij gebruik maakt van efficiënte caching en synchronisatie.)</li>
+<li>een mogelijke infrastructuur hiervoor is de “persoonlijke Pod”,
+zoals ontwikkeld door Solid(MIT)/Inrupt.</li>
+<li>in het web wordt Linked Data gebruikt om het zoekproces te verbeteren:</li>
+</ul>
+<div class="section" id="factorisatie">
+<h2>Factorisatie<a class="headerlink" href="#factorisatie" title="Permalink naar deze titel">¶</a></h2>
+<p>(Mogelijk kunnen we dit beter normalisatie over databases noemen:
+normalisatie is in de wereld van de databases de gebruikelijke term.)</p>
+<p>Met <em>factorisatie</em> bedoelen we hier dat je gemeenschappelijke gegevens “buiten haakjes haalt”,
+en deelt met meerdere databases.
+In de database-wereld, in het bijzonder bij een relationele database, heet dit “normalisatie”.
+Het belangrijkste doel hiervan is dat je deze gemeenschappelijke gegevens dan maar op één plaats hoeft aan te passen,
+als deze veraderen.</p>
+<p>Denk bijvoorbeeld aan het adres van een persoon:
+Als dit in allerlei databases opgeslagen is, dan moeten deze bij een verhuizing allemaal aangepast worden.
+Als deze databases gebruik kunnen maken van dezelfde “bron” voor deze gegevens,
+dan hoeft deze verandering alleen maar bij deze bron plaats te vinden.</p>
+<blockquote>
+<div>Een ander argument is dat deze gegevens dan minder ruimte in beslag nemen,
+omdat je allerlei duplicaten voorkomt.
+Dit argument is tegenwoordig, met de sterk gedaalde kosten van gegensopslag,
+minder relevant.</div></blockquote>
+</div>
+<div class="section" id="gegevens-met-betekenis">
+<h2>Gegevens met betekenis<a class="headerlink" href="#gegevens-met-betekenis" title="Permalink naar deze titel">¶</a></h2>
+<p>Bij een “normale” database speelt voor de computer de betekenis van de data geen rol:
+je kunt gegevens opslaan in een bepaalde structuur, en je kunt ze terugzoeken volgens deze structuur.
+De namen die je gebruikt in de structuur: de namen voor de kolommen (SQL) of voor de eigenschappen van documenten (MongoDB),
+hebben voor de computer geen betekenis.
+Dit zijn voornamelijk aanwijzingen voor menselijke gebruikers (applicatieprogrammeurs) over de betekenis van de bijbehorende gegevens.</p>
+<p>Linked Data vormt een opstapje naar Semantische Databases.
+In zo’n database beschrijf je de betekenis van de gegevens op zo’n manier dat deze ook door computers geïnterpreteerd kan worden.</p>
+<p>Voorbeeld: in een database met familierelaties beschrijf je gewoonlijk de directe relaties, zoals “zoon van” of “ouder van”.
+Dit betekent dat je alleen deze relaties in queries kunt gebruiken.
+Je kunt wel een complexere query maken om de grootouders van een bepaald persoon op te zoeken,
+maar zo’n query is onderdeel van een toepassing, geen onderdeel van de database.</p>
+<p>In een semantische database kun je indirecte relaties, zoals “grootouder van”, “kleinkind van”, “oom van” e.d. beschrijven met behulp van regels.
+In een query kun je deze relaties gebruiken alsof deze deel uitmaken van de database:
+alsof dit kolomnamen zijn, of eigenschappen van documenten.</p>
+<p>Het afleiden van dergelijke indirecte relaties, op grond van de gegevens in de database en een reeks regels voor relaties,
+heet ook wel <em>inferencing</em> (“afleiden”).</p>
+</div>
+<div class="section" id="linked-data-in-het-web">
+<h2>Linked Data in het web<a class="headerlink" href="#linked-data-in-het-web" title="Permalink naar deze titel">¶</a></h2>
+<p>Als je een restaurant hebt met een webpagina, dan wil je graag dat zoekmachines handig omgaan met gegevens als locatie, openingstijden en telefoonnummers.
+Als je deze alleen in HTML beschrijft, op een manier die voor mensen leesbaar is, dan is het voor een zoekmachine niet duidelijk wat deze gegevens voorstellen.
+Met behulp van Linked Data, in verschillende vormen (microdata, RDF, JSON-LD, enz.),</p>
+<p>Zie: <a class="reference external" href="https://developers.google.com/search/docs/guides/intro-structured-data">https://developers.google.com/search/docs/guides/intro-structured-data</a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Eelco Dijkstra.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/linked-data-vervolg.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

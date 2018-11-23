@@ -1,0 +1,143 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>MongoDB schema &#8212; NoSQL-LD  documentatie</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Zoeken" href="search.html" />
+    <link rel="next" title="MongoDB factorisatie" href="nosql-factorisatie.html" />
+    <link rel="prev" title="NoSQL: MongoDB" href="nosql.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">NoSQL-LD</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigatie</h3>
+<p class="caption"><span class="caption-text">Inhoud:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MongoDB schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-factorisatie.html">MongoDB factorisatie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linked-data-vervolg.html">Linked Data: vervolg</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="nosql.html" title="vorig hoofdstuk">NoSQL: MongoDB</a></li>
+      <li>Next: <a href="nosql-factorisatie.html" title="volgend hoofdstuk">MongoDB factorisatie</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Snel zoeken</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Zoek" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mongodb-schema">
+<h1>MongoDB schema<a class="headerlink" href="#mongodb-schema" title="Permalink naar deze titel">¶</a></h1>
+<div class="admonition-samenvatting admonition">
+<p class="first admonition-title">Samenvatting</p>
+<p>Met een <em>schema</em> beschrijf je de namen en types van de eigenschappen (<em>properties</em>) van de documenten in een <em>collection</em>.
+Deze <em>consistentie in namen en types</em> vormt de basis voor het (efficiënt) zoeken in die collection.</p>
+<p class="last">Een MongoDB-schema kan ook <em>partieel</em> zijn: dat beschrijft een deel van de eigenschappen van de documenten.
+Als database-ontwerper bepaal je dan zelf de grens tussen de gemeenschappelijke structuur (schema) en het document-eigen deel.</p>
+</div>
+<p>Zoals we gezien hebben heeft in MongoDB elk document in een collection zijn eigen structuur:
+een document is een voorbeeld van <em>self-describing data</em>.
+Dit geeft een grote flexibiliteit, maar het staat het efficiënt zoeken van documenten in de database in de weg.</p>
+<p>Met behulp van een schema kunnen we beschrijven en afdwingen welke eigenschappen (properties) de documenten in een collection
+<em>tenminste</em> moeten hebben.
+Deze gemeenschappelijke structuur vormt de basis voor efficiënt zoeken in de collection.
+Daarnaast kan een document altijd eigenschappen hebben die afwijken van deze gemeenschappelijke structuur.</p>
+<p>In MongoDB kun je een dergelijke structuur (het <em>schema</em>) op verschillende manieren aangeven.
+We gebruiken hier de aanpak met behulp van een <em>query</em>-structuur:
+alleen documenten die aan deze query voldoen zijn toegelaten in de betreffende collection.</p>
+<blockquote>
+<div>De andere manier is met behulp van <a class="reference external" href="https://json-schema.org">JSON-Schema</a> :
+hiermee beschrijf je de structuur van JSON-documenten.</div></blockquote>
+<p>Het onderstaande query-document beschrijft alle documenten die een <cite>naam</cite> en een <cite>email</cite>- of een <cite>tel</cite>-eigenschap hebben (<code class="docutils literal notranslate"><span class="pre">$or</span></code>).
+In de opdracht daarna koppelen we dit query-document als <em>validator</em> (schema) aan de collection <code class="docutils literal notranslate"><span class="pre">contacts</span></code>.
+Na deze koppeling kun je alleen documenten die aan dit schema voldoen aan de collection <code class="docutils literal notranslate"><span class="pre">contacts</span></code> toevoegen.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">contact_schema</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
+                  <span class="s2">&quot;$or&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
+                          <span class="p">{</span><span class="s2">&quot;tel&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}}</span>
+
+                         <span class="p">]}</span>
+<span class="n">db</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;collMod&quot;</span><span class="p">,</span> <span class="s2">&quot;contacts&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">contact_schema</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Op basis van deze validator kennen we de minimale structuur van de documenten in de collection <code class="docutils literal notranslate"><span class="pre">contacts</span></code>.
+Deze structuur kunnen we gebruiken voor het zoeken naar documenten in de collection.
+Bovendien kunnen we dit gebruiken als basis voor een <em>index</em> waarmee we efficiënt kunnen zoeken.</p>
+<p><strong>Opmerking.</strong>
+De collection kan documenten bevatten die niet aan dit schema voldoen,
+als die eerder toegevoegd zijn.
+Het is aan de database-programmeur om dit probleem op te lossen.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Eelco Dijkstra.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/nosql-schema.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
