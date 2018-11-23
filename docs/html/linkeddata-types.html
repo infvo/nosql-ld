@@ -1,0 +1,149 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Types in Linked Data &#8212; NoSQL-LD  documentatie</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Zoeken" href="search.html" />
+    <link rel="next" title="Linked Data: vervolg" href="linked-data-vervolg.html" />
+    <link rel="prev" title="Linked Data" href="linkeddata.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">NoSQL-LD</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigatie</h3>
+<p class="caption"><span class="caption-text">Inhoud:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-factorisatie.html">MongoDB factorisatie</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Types in Linked Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="linked-data-vervolg.html">Linked Data: vervolg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="linkeddata.html" title="vorig hoofdstuk">Linked Data</a></li>
+      <li>Next: <a href="linked-data-vervolg.html" title="volgend hoofdstuk">Linked Data: vervolg</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Snel zoeken</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Zoek" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="types-in-linked-data">
+<h1>Types in Linked Data<a class="headerlink" href="#types-in-linked-data" title="Permalink naar deze titel">¶</a></h1>
+<p>Eigenlijk moet je naast de namen van de eigenschappen ook de bijbehorende types beschrijven.
+De Linked Data aanpak maakt ook dit mogelijk.
+We kunnen dan ook verschillende soorten strings onderscheiden, bijvoorbeeld een string die een datum beschrijft,
+of een XXX.</p>
+<p>Met behulp van <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code> kun je aangeven wat het type is van het document (object).
+In het onderstaande voorbeeld geeft dit aan dat het document een “Person” beschrijft.</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span>
+  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/name&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/telephone&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/homepage&quot;</span>
+  <span class="p">},</span>
+ <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/Person&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hans de Jong&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;06-1234 5599&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://hans.nl&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Je kunt ook in de context aangeven wat de types zijn van de genoemde eigenschappen.
+In dat geval heb je naast <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code> ook <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> nodig, om de webnaam (URI of IRI) aan te geven:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span>
+  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/name&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/telephone&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/age&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;xsd:integer&quot;</span>
+   <span class="p">},</span>
+   <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/homepage&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
+   <span class="p">}</span>
+  <span class="p">},</span>
+ <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/Person&quot;</span>
+ <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hans de Jong&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;06-1234 5599&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
+ <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://hans.nl&quot;</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Opmerking:</strong> in het algemeen is het niet verstandig om veranderlijke (“volatile”) gegevens zoals  <code class="docutils literal notranslate"><span class="pre">age</span></code> op te slaan.
+We gebruiken dit hier alleen als type-voorbeeld.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Eelco Dijkstra.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/linkeddata-types.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

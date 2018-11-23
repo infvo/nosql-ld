@@ -17,7 +17,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
-    <link rel="next" title="Linked Data: vervolg" href="linked-data-vervolg.html" />
+    <link rel="next" title="Types in Linked Data" href="linkeddata-types.html" />
     <link rel="prev" title="MongoDB factorisatie" href="nosql-factorisatie.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -50,7 +50,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#referenties">Referenties</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linked-data-vervolg.html">Linked Data: vervolg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo</a></li>
 </ul>
 
 <div class="relations">
@@ -58,7 +60,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="nosql-factorisatie.html" title="vorig hoofdstuk">MongoDB factorisatie</a></li>
-      <li>Next: <a href="linked-data-vervolg.html" title="volgend hoofdstuk">Linked Data: vervolg</a></li>
+      <li>Next: <a href="linkeddata-types.html" title="volgend hoofdstuk">Types in Linked Data</a></li>
   </ul></li>
 </ul>
 </div>
@@ -166,49 +168,6 @@ deze lange namen maken de programma’s voor deze database veel minder leesbaar.
 </div>
 <p>Met behulp van speciale functies, in Python <code class="docutils literal notranslate"><span class="pre">jsonld.expand(doc)</span></code> en <code class="docutils literal notranslate"><span class="pre">jsonld.compact(expandedDoc,</span> <span class="pre">context)</span></code>,
 kun je een compacte vorm omzetten in een uitgebreide vorm (met URIs als namen van eigenschappen) en omgekeerd.</p>
-<p class="rubric">types in Linked Data</p>
-<p>Eigenlijk moet je naast de namen van de eigenschappen ook de bijbehorende types beschrijven.
-De Linked Data aanpak maakt ook dit mogelijk.
-We kunnen dan ook verschillende soorten strings onderscheiden, bijvoorbeeld een string die een datum beschrijft,
-of een XXX.</p>
-<p>Met behulp van <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code> kun je aangeven wat het type is van het document (object).
-In het onderstaande voorbeeld geeft dit aan dat het document een “Person” beschrijft.</p>
-<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span>
-  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/name&quot;</span><span class="p">,</span>
-   <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/telephone&quot;</span><span class="p">,</span>
-   <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/homepage&quot;</span>
-  <span class="p">},</span>
- <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/Person&quot;</span><span class="p">,</span>
- <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hans de Jong&quot;</span><span class="p">,</span>
- <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;06-1234 5599&quot;</span><span class="p">,</span>
- <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://hans.nl&quot;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Je kunt ook in de context aangeven wat de types zijn van de genoemde eigenschappen.
-In dat geval heb je naast <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code> ook <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> nodig, om de webnaam (URI of IRI) aan te geven:</p>
-<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span>
-  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/name&quot;</span><span class="p">,</span>
-   <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/telephone&quot;</span><span class="p">,</span>
-   <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="p">{</span>
-     <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/age&quot;</span><span class="p">,</span>
-     <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;xsd:integer&quot;</span>
-   <span class="p">},</span>
-   <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="p">{</span>
-     <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/homepage&quot;</span><span class="p">,</span>
-     <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
-   <span class="p">}</span>
-  <span class="p">},</span>
- <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/Person&quot;</span>
- <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hans de Jong&quot;</span><span class="p">,</span>
- <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;06-1234 5599&quot;</span><span class="p">,</span>
- <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
- <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://hans.nl&quot;</span>
- <span class="p">}</span>
-</pre></div>
-</div>
-<p><strong>Opmerking:</strong> in het algemeen is het niet verstandig om veranderlijke (“volatile”) gegevens zoals  <code class="docutils literal notranslate"><span class="pre">age</span></code> op te slaan.
-We gebruiken dit hier alleen als type-voorbeeld.</p>
 <div class="section" id="hoe-wordt-linked-data-gebruikt">
 <h2>Hoe wordt Linked Data gebruikt?<a class="headerlink" href="#hoe-wordt-linked-data-gebruikt" title="Permalink naar deze titel">¶</a></h2>
 <p>Waar en op welke manieren wordt Linked Data nu gebruikt?</p>
@@ -223,6 +182,13 @@ Zie ook: <a class="reference external" href="https://www.wikidata.org/wiki/Wikid
 </div>
 <div class="section" id="referenties">
 <h2>Referenties<a class="headerlink" href="#referenties" title="Permalink naar deze titel">¶</a></h2>
+<p>De vier regels voor Linked Data van Tim Berners-Lee (de uitvinder van het web):</p>
+<ol class="arabic simple">
+<li>Use URIs as names for things.</li>
+<li>Use HTTP URIs (<em>URLs</em>) so that people can look up those names.</li>
+<li>When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL - <em>or JSON-LD</em>).</li>
+<li>Include links to other URIs. so that they can discover more things.</li>
+</ol>
 <ul class="simple">
 <li><a class="reference external" href="https://www.w3.org/DesignIssues/LinkedData.html">Tim Berners-Lee: Linked Data Principles</a></li>
 <li><a class="reference external" href="https://json-ld.org/spec/latest/json-ld-api-best-practices/#bp-summary">linked data-best practices</a></li>

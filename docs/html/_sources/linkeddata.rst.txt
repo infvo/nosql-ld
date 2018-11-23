@@ -104,55 +104,7 @@ Door middel van een *context* kunnen we aangeven hoe onze eigen lokale namen gek
 Met behulp van speciale functies, in Python ``jsonld.expand(doc)`` en ``jsonld.compact(expandedDoc, context)``,
 kun je een compacte vorm omzetten in een uitgebreide vorm (met URIs als namen van eigenschappen) en omgekeerd.
 
-.. rubric:: types in Linked Data
 
-Eigenlijk moet je naast de namen van de eigenschappen ook de bijbehorende types beschrijven.
-De Linked Data aanpak maakt ook dit mogelijk.
-We kunnen dan ook verschillende soorten strings onderscheiden, bijvoorbeeld een string die een datum beschrijft,
-of een XXX.
-
-Met behulp van ``@type`` kun je aangeven wat het type is van het document (object).
-In het onderstaande voorbeeld geeft dit aan dat het document een "Person" beschrijft.
-
-.. code-block:: JSON
-
-  {"@context":
-    {"name": "https://schema.org/name",
-     "tel": "https://schema.org/telephone",
-     "homepage": "http://xmlns.com/foaf/0.1/homepage"
-    },
-   "@type": "https://schema.org/Person",
-   "name": "Hans de Jong",
-   "tel": "06-1234 5599",
-   "homepage": "https://hans.nl"
-  }
-
-Je kunt ook in de context aangeven wat de types zijn van de genoemde eigenschappen.
-In dat geval heb je naast ``@type`` ook ``@id`` nodig, om de webnaam (URI of IRI) aan te geven:
-
-.. code-block:: JSON
-
-  {"@context":
-    {"name": "https://schema.org/name",
-     "tel": "https://schema.org/telephone",
-     "age": {
-       "@id": "http://xmlns.com/foaf/0.1/age",
-       "@type": "xsd:integer"
-     },
-     "homepage": {
-       "@id": "http://xmlns.com/foaf/0.1/homepage",
-       "@type": "@id"
-     }
-    },
-   "@type": "https://schema.org/Person"
-   "name": "Hans de Jong",
-   "tel": "06-1234 5599",
-   "age": 35,
-   "homepage": "https://hans.nl"
-   }
-
-**Opmerking:** in het algemeen is het niet verstandig om veranderlijke ("volatile") gegevens zoals  ``age`` op te slaan.
-We gebruiken dit hier alleen als type-voorbeeld.
 
 Hoe wordt Linked Data gebruikt?
 ===============================
@@ -172,6 +124,13 @@ Zie ook: `Wikidata data access <https://www.wikidata.org/wiki/Wikidata:Data_acce
 
 Referenties
 ===========
+
+De vier regels voor Linked Data van Tim Berners-Lee (de uitvinder van het web):
+
+1. Use URIs as names for things.
+2. Use HTTP URIs (*URLs*) so that people can look up those names.
+3. When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL - *or JSON-LD*).
+4. Include links to other URIs. so that they can discover more things.
 
 * `Tim Berners-Lee: Linked Data Principles <https://www.w3.org/DesignIssues/LinkedData.html>`_
 * `linked data-best practices <https://json-ld.org/spec/latest/json-ld-api-best-practices/#bp-summary>`_
