@@ -97,9 +97,11 @@ NoSQL betekent dat we niet met een klassieke relationele database te maken hebbe
 Als vraagtaal wordt soms wel een variant van SQL gebruikt: NoSQL betekent dan “not only SQL”.</p>
 <p>We geven eerst een samenvatting van een aantal belangrijke eigenschappen van relationele databases.
 Daarna geven we een aantal eigenschappen van MongoDB, om het verschil duidelijk te maken.</p>
-<p>Als voorbeeld gebruiken we een database met <em>contacten</em>, bijvoorbeeld personen en organisaties.
+<p>Als voorbeeld gebruiken we een database met <em>contacten</em>, bijvoorbeeld personen en organisaties,
+en met agenda-items.
 Een dergelijke database is eenvoudiger te maken met MongoDB dan met een relationele database.</p>
-<p>(In een ander hoofdstuk beschrijven we Linked Data; we geven aan hoe je dat in combinatie met MongoDB kunt gebruiken.)</p>
+<p>In een ander hoofdstuk beschrijven we Linked Data;
+we geven aan hoe je dat in combinatie met MongoDB kunt gebruiken.</p>
 <div class="section" id="relationele-databases">
 <h2>Relationele databases<a class="headerlink" href="#relationele-databases" title="Permalink naar deze titel">¶</a></h2>
 <p class="rubric">Stuctuur van de data</p>
@@ -109,12 +111,18 @@ Alle rijen in een tabel hebben dezelfde structuur (dezelfde velden):
 de rijen zijn <em>gelijkvormig</em>.
 Sommige velden in een rij kunnen een lege waarde bevatten (NULL);
 een lege waarde kun je zien als een “gat” in de rij.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/rechthoekige-data.png"><img alt="_images/rechthoekige-data.png" src="_images/rechthoekige-data.png" style="width: 600px;" /></a>
+<p class="caption"><span class="caption-text">Relationele database: tabellen</span></p>
+</div>
 <p class="rubric">Beschrijving van de data</p>
 <p>Het <em>fysieke schema</em> van een relationele database beschrijft voor elke tabel:
-de naam van de tabel, en de namen en types van de kolommen.</p>
-<p>Dit kun je vergelijken met <em>statische typering</em> in programmeertalen als Pascal en Java.
+de naam van de tabel, en de namen en types van de kolommen.
 Je geeft hiermee voor het DBMS aan welke de waarden in de tabellen kunnen voorkomen.
 Bovendien vormt dit de documentatie voor de toepassingsprogrammeurs en andere gebruikers van de database.</p>
+<blockquote>
+<div>Je bepaalt de types van de waarden in de database vooraf.
+Dit kun je vergelijken met <em>statische typering</em> in programmeertalen als Pascal en Java.</div></blockquote>
 </div>
 <div class="section" id="mongodb">
 <h2>MongoDB<a class="headerlink" href="#mongodb" title="Permalink naar deze titel">¶</a></h2>
@@ -135,7 +143,8 @@ Dit noemen we ook wel “self describing data”.</p>
              <span class="nt">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;Rotterdam&quot;</span><span class="p">,</span>
              <span class="nt">&quot;postcode&quot;</span><span class="p">:</span> <span class="s2">&quot;2001 BC&quot;</span>
             <span class="p">},</span>
-  <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;010-123 123 9&quot;</span>
+  <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;010-123 123 9&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;birthDate&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;$date&quot;</span><span class="p">:</span> <span class="s2">&quot;1959-05-11T00:00:00.000Z&quot;</span> <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -151,9 +160,14 @@ Dit noemen we ook wel “self describing data”.</p>
 <p>Dit kunnen documenten in eenzelfde <em>collection</em> zijn:
 elk document heeft een eigen structuur,
 met meestal de nodige overlap tussen de structuur van de verschillende documenten in eenzelfde <em>collection</em>.
-Later komen we daarop terug.</p>
-<p>Elke waarde heeft een eigen type; er is geen vaste koppeling tussen een veld(naam) en een type.
-Dit kun je vergelijken met de dynamische typering in programmeertalen als Python en JavaScript.</p>
+Later komen we daarop terug.
+Er is geen vaste koppeling tussen een veld(naam) en een type.
+Het type van een waarde blijkt uit de waarde zelf.
+(In de meeste gevallen hier gewoon “string”, behalve de <cite>$date</cite>.)</p>
+<blockquote>
+<div>De types van de waarden van de velden kunnen verschillen van document tot document.
+Je legt deze pas vast bij toekenning aan een veld.
+Dit kun je vergelijken met de dynamische typering in programmeertalen als Python en JavaScript.</div></blockquote>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Te doen</p>
 <ul class="last simple">
@@ -175,45 +189,87 @@ in AJAX-interacties.</p>
 </ul>
 <p>Er is geen standaardnotatie voor verwijzingen tussen JSON-objecten:
 dat moet je als programmeur zelf oplossen.</p>
-<p>Enkele voorbeelden van objecten in JSON, JavaScript en Python (dictionary):</p>
-<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span>
+<p>Enkele voorbeelden van objecten in JSON:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Anna Verschuur&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;anna@hotmail.com&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">27</span><span class="p">,</span>
+ <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;street&quot;</span><span class="p">:</span> <span class="s2">&quot;Noorderkade 102&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;Amsterdam&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;postcode&quot;</span><span class="p">:</span> <span class="s2">&quot;1000 AA&quot;</span>
+            <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span>
+<p>in Python (dictionary):</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Anna Verschuur&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;anna@hotmail.com&quot;</span><span class="p">,</span>
+ <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">27</span><span class="p">,</span>
+ <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;street&quot;</span><span class="p">:</span> <span class="s2">&quot;Noorderkade 102&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;Amsterdam&quot;</span><span class="p">,</span>
+             <span class="s2">&quot;postcode&quot;</span><span class="p">:</span> <span class="s2">&quot;1000 AA&quot;</span>
+            <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<div class="highlight-JavaScript notranslate"><div class="highlight"><pre><span></span>
+<p>en in JavaScript:</p>
+<div class="highlight-JavaScript notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;Anna Verschuur&quot;</span><span class="p">,</span>
+ <span class="nx">email</span><span class="o">:</span> <span class="s2">&quot;anna@hotmail.com&quot;</span><span class="p">,</span>
+ <span class="nx">age</span><span class="o">:</span> <span class="mi">27</span><span class="p">,</span>
+ <span class="nx">address</span><span class="o">:</span> <span class="p">{</span><span class="nx">street</span><span class="o">:</span> <span class="s2">&quot;Noorderkade 102&quot;</span><span class="p">,</span>
+           <span class="nx">city</span><span class="o">:</span> <span class="s2">&quot;Amsterdam&quot;</span><span class="p">,</span>
+           <span class="nx">postcode</span><span class="o">:</span> <span class="s2">&quot;1000 AA&quot;</span>
+          <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
-</div>
-<div class="admonition-todo admonition" id="index-1">
-<p class="first admonition-title">Te doen</p>
-<ul class="last simple">
-<li>voorbeelden van JSON/JS/Python-objecten</li>
-</ul>
 </div>
 <p>Zoals je ziet is er een grote overeenkomst tussen de JSON-notatie en de notatie van een Python dictionary.</p>
+<blockquote>
+<div>We hebben hier als voorbeeld een eigenschap <cite>age</cite> gebruikt;
+in een database gebruik je de geboortedatum in plaats van een dergelijke tijdsafhankelijke waarde.</div></blockquote>
 <p>MongoDB gebruikt een variant van JSON: BSON, voor de notatie van documenten in de database.
-BSON bevat meer types dan JSON, en heeft een standaardnotatie voor verwijzingen naar andere documenten.</p>
+BSON bevat meer types dan JSON, en heeft een standaardnotatie voor verwijzingen naar andere documenten.
+Het BSON-type <cite>Date</cite> komt bijvoorbeeld voor in JSON.</p>
 </div>
 <div class="section" id="collections">
 <h2>Collections<a class="headerlink" href="#collections" title="Permalink naar deze titel">¶</a></h2>
+<p>In MongoDB breng je documenten van eenzelfde soort onder in een collection.
+In de voorbeelden hebben we bijvoorbeeld een collection met contact-documenten,
+en een collection met agenda-documenten.</p>
+<blockquote>
+<div>Een collection komt ongeveen overeen met een SQL tabel.</div></blockquote>
 </div>
 <div class="section" id="vergelijking">
 <h2>Vergelijking<a class="headerlink" href="#vergelijking" title="Permalink naar deze titel">¶</a></h2>
-<table border="1" class="docutils">
+<table border="1" class="docutils align-center" id="id2">
+<caption><span class="caption-text">vergelijking en terminologie</span><a class="headerlink" href="#id2" title="Permalink naar deze tabel">¶</a></caption>
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col width="31%" />
+<col width="25%" />
+<col width="22%" />
+<col width="22%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>SQL</td>
-<td>MongoDB</td>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">SQL</th>
+<th class="head">MongoDB</th>
+<th class="head">JavaScript</th>
+<th class="head">Python</th>
 </tr>
-<tr class="row-even"><td>tabel</td>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>table</td>
 <td>collection</td>
+<td>(array)</td>
+<td>(array)</td>
 </tr>
 <tr class="row-odd"><td>row (record)</td>
 <td>document</td>
+<td>object</td>
+<td>dictionary</td>
+</tr>
+<tr class="row-even"><td>column (field)</td>
+<td>field</td>
+<td>property</td>
+<td>key</td>
 </tr>
 </tbody>
 </table>
