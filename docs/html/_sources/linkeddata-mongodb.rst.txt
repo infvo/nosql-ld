@@ -29,6 +29,8 @@ Redefinition of terms in local context?
 
 .. code-block:: JSON
 
-  "@context": ["http://schema.org", {
+  {"@context": ["http://schema.org", {
       "image": { "@id": "schema:image", "@type": "@id"}
     }],
+    
+  }

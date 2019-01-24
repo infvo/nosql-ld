@@ -11,9 +11,11 @@ NoSQL - Linked Data
    :caption: Inhoud:
 
    ten-geleide.rst
+   inleiding.rst
+   voorbeeld-model.rst
    nosql.rst
    nosql-schema.rst
-   nosql-factorisatie.rst
+   mongodb-modelleren.rst
    linkeddata.rst
    linkeddata-types.rst
    linkeddata-mongodb.rst
