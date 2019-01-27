@@ -26,17 +26,13 @@ Maar dat is nog maar het begin:
 * in het web wordt Linked Data gebruikt om het zoekproces te verbeteren:
 
 
-Factorisatie
-============
+Globale normalisatie
+====================
 
-(Mogelijk kunnen we dit beter normalisatie over databases noemen:
-normalisatie is in de wereld van de databases de gebruikelijke term.)
-
-Met *factorisatie* bedoelen we hier dat je gemeenschappelijke gegevens "buiten haakjes haalt",
+Met *normalisatie* bedoelen we hier dat je gemeenschappelijke gegevens "buiten haakjes haalt",
 en deelt met meerdere databases.
-In de database-wereld, in het bijzonder bij een relationele database, heet dit "normalisatie".
 Het belangrijkste doel hiervan is dat je deze gemeenschappelijke gegevens dan maar op één plaats hoeft aan te passen,
-als deze veraderen.
+als deze veranderen.
 
 Denk bijvoorbeeld aan het adres van een persoon:
 Als dit in allerlei databases opgeslagen is, dan moeten deze bij een verhuizing allemaal aangepast worden.
