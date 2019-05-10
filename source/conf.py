@@ -44,6 +44,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.ifconfig',
     'sphinx.ext.githubpages',
+    'recommonmark',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -75,9 +76,9 @@ exclude_patterns = []
 pygments_style = 'sphinx'
 
 # Include recommonmark
-source_parsers = {
-   '.md': CommonMarkParser,
-}
+#source_parsers = {
+#   '.md': CommonMarkParser,
+#}
 
 # -- Options for HTML output -------------------------------------------------
 

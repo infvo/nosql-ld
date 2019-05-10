@@ -14,8 +14,8 @@ NoSQL - Linked Data
    inleiding.rst
    voorbeeld-model.rst
    nosql.rst
-   nosql-schema.rst
    mongodb-modelleren.rst
+   nosql-schema.rst
    linkeddata.rst
    linkeddata-types.rst
    linkeddata-mongodb.rst

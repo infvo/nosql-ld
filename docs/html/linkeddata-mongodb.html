@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Linked Data en MongoDB &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,8 +11,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
     <link rel="next" title="Linked Data: vervolg" href="linked-data-vervolg.html" />
@@ -49,8 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="inleiding.html">Inleiding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="voorbeeld-model.html">Voorbeeld-model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB modelleren</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Linked Data en MongoDB</a></li>
@@ -73,8 +71,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Zoek" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -88,42 +84,39 @@
   <div class="section" id="linked-data-en-mongodb">
 <h1>Linked Data en MongoDB<a class="headerlink" href="#linked-data-en-mongodb" title="Permalink naar deze titel">¶</a></h1>
 <div class="admonition-nog-uit-te-werken admonition">
-<p class="first admonition-title">Nog uit te werken</p>
-<p class="last">NB: het onderstaande moet nog verder uitgewerkt worden.</p>
+<p class="admonition-title">Nog uit te werken</p>
+<p>NB: het onderstaande moet nog verder uitgewerkt worden.</p>
 </div>
 <div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Te doen</p>
-<p class="last">Hoe gebruik je linked data in combinatie met MongoDB?</p>
+<p class="admonition-title">Te doen</p>
+<p>Hoe gebruik je linked data in combinatie met MongoDB?</p>
 </div>
 <ul class="simple">
-<li>context hoeft niet embedded te zijn: door reference <em>sharing</em> van gemeenschappelijke context</li>
-<li>NB: context beschrijft niet welke velden aanwezig (moeten) zijn; deze beschrijft alleen de interpretatie van de velden.</li>
-<li>dit is een verschil met een schema:; dat beschrijft welke velden aanwezig moeten zijn (en geeft niet de interpretatie).</li>
-<li><dl class="first docutils">
-<dt>typering vindt zowel in context als in schema plaats.</dt>
-<dd><ul class="first last">
-<li>bij typering in BSON/MongoDB gaat het vooral om de manier waarop de data opgeslagen worden (en opgezocht);</li>
-<li>bij typering in Linked Data (JSON-LD) gaat het vooral over de interpretatie (meestal van strings).</li>
+<li><p>context hoeft niet embedded te zijn: door reference <em>sharing</em> van gemeenschappelijke context</p></li>
+<li><p>NB: context beschrijft niet welke velden aanwezig (moeten) zijn; deze beschrijft alleen de interpretatie van de velden.</p></li>
+<li><p>dit is een verschil met een schema:; dat beschrijft welke velden aanwezig moeten zijn (en geeft niet de interpretatie).</p></li>
+<li><dl class="simple">
+<dt>typering vindt zowel in context als in schema plaats.</dt><dd><ul>
+<li><p>bij typering in BSON/MongoDB gaat het vooral om de manier waarop de data opgeslagen worden (en opgezocht);</p></li>
+<li><p>bij typering in Linked Data (JSON-LD) gaat het vooral over de interpretatie (meestal van strings).</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>gebruik van <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> ook voor MongoDB-ids? - zie <a class="reference external" href="https://www.slideshare.net/gkellogg1/jsonld-and-mongodb">https://www.slideshare.net/gkellogg1/jsonld-and-mongodb</a></dt>
-<dd><ul class="first last">
-<li><code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> is dan de MongoDB-key; dit gebruik je ook voor het opzoeken van documenten in MongoDB.</li>
-<li>vaak: gebruik van aliases voor <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> en <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code>: vereenvoudigt het gebruik in JavaScript/web frameworks.
-(een context beschrijft een reeks aliases)</li>
-<li>voor een key in MongoDB wordt <code class="docutils literal notranslate"><span class="pre">_id</span></code> gebruikt; is dit iets anders dan <code class="docutils literal notranslate"><span class="pre">id</span></code> in de genoemde presentatie?</li>
+<li><dl class="simple">
+<dt>gebruik van <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> ook voor MongoDB-ids? - zie <a class="reference external" href="https://www.slideshare.net/gkellogg1/jsonld-and-mongodb">https://www.slideshare.net/gkellogg1/jsonld-and-mongodb</a></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> is dan de MongoDB-key; dit gebruik je ook voor het opzoeken van documenten in MongoDB.</p></li>
+<li><p>vaak: gebruik van aliases voor <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> en <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code>: vereenvoudigt het gebruik in JavaScript/web frameworks.
+(een context beschrijft een reeks aliases)</p></li>
+<li><p>voor een key in MongoDB wordt <code class="docutils literal notranslate"><span class="pre">_id</span></code> gebruikt; is dit iets anders dan <code class="docutils literal notranslate"><span class="pre">id</span></code> in de genoemde presentatie?</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>vraag: bevat Schema.org (als context) aliases voor id en type?</dt>
-<dd><ul class="first last">
-<li>ja, zie: <a class="reference external" href="https://schema.org/docs/jsonldcontext.json">https://schema.org/docs/jsonldcontext.json</a></li>
-<li>(deze json krijg je ook via context negotiation van <a class="reference external" href="https://schema.org">https://schema.org</a>)</li>
+<li><dl class="simple">
+<dt>vraag: bevat Schema.org (als context) aliases voor id en type?</dt><dd><ul>
+<li><p>ja, zie: <a class="reference external" href="https://schema.org/docs/jsonldcontext.json">https://schema.org/docs/jsonldcontext.json</a></p></li>
+<li><p>(deze json krijg je ook via context negotiation van <a class="reference external" href="https://schema.org">https://schema.org</a>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -149,7 +142,7 @@
       &copy;2018, Eelco Dijkstra.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>NoSQL - Linked Data &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,8 +11,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
     <link rel="next" title="Ten geleide" href="ten-geleide.html" />
@@ -48,8 +46,8 @@
 <li class="toctree-l1"><a class="reference internal" href="inleiding.html">Inleiding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="voorbeeld-model.html">Voorbeeld-model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB modelleren</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-mongodb.html">Linked Data en MongoDB</a></li>
@@ -71,8 +69,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Zoek" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -113,14 +109,23 @@
 <li class="toctree-l2"><a class="reference internal" href="nosql.html#vergelijking">Vergelijking</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB modelleren</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mongodb-modelleren.html#samengesteld-attribuut">Samengesteld attribuut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongodb-modelleren.html#meerwaardig-attribuut">Meerwaardig attribuut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongodb-modelleren.html#relatie-embedding-of-referencing">Relatie: embedding of referencing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mongodb-modelleren.html#relatie-patronen">Relatie-patronen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mongodb-modelleren.html#vergelijking-met-relationele-databases">Vergelijking met relationele databases</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nosql-schema.html#vergelijking-met-relationele-databases">Vergelijking met relationele databases</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="linkeddata.html#hoe-wordt-linked-data-gebruikt">Hoe wordt Linked Data gebruikt?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="linkeddata.html#referenties">Referenties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linkeddata.html#namen-in-linked-data">Namen in Linked Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linkeddata.html#types-in-linked-data">Types in Linked Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linkeddata.html#gebruik-van-linked-data">Gebruik van Linked Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linkeddata.html#referenties-en-verdiepding">Referenties en verdiepding</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
@@ -138,9 +143,9 @@
 <div class="section" id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink naar deze titel">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
-<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module-index</span></a></li>
-<li><a class="reference internal" href="search.html"><span class="std std-ref">Zoekpagina</span></a></li>
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module-index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Zoekpagina</span></a></p></li>
 </ul>
 </div>
 
@@ -154,7 +159,7 @@
       &copy;2018, Eelco Dijkstra.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

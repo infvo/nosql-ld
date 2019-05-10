@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Voorbeeld-model &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,8 +11,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
     <link rel="next" title="NoSQL: MongoDB" href="nosql.html" />
@@ -55,8 +53,8 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB modelleren</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-mongodb.html">Linked Data en MongoDB</a></li>
@@ -79,8 +77,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Zoek" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -107,9 +103,10 @@ van een ander weet je ook het huisadres, werkadres, enz.
 Dit sluit goed aan bij de mogelijkheden van MongoDB,
 waar elk document zijn eigen structuur (“schema”) beschrijft.</p>
 <blockquote>
-<div>In een relationele database is een dergelijke variatie lastig.
+<div><p>In een relationele database is een dergelijke variatie lastig.
 Je kunt bijvoorbeeld niet gemakkelijk voor het ene contact 1 telefoonnummer opslaan,
-en voor het andere 3. (En misschien heb je later nog meer nodig.)</div></blockquote>
+en voor het andere 3. (En misschien heb je later nog meer nodig.)</p>
+</div></blockquote>
 <p>Enkele voorbeelden van contact-documenten:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Leontien de Bruin &quot;</span><span class="p">,</span>
  <span class="nt">&quot;email&quot;</span><span class="p">:</span>
@@ -134,7 +131,7 @@ en voor het andere 3. (En misschien heb je later nog meer nodig.)</div></blockqu
 In de UML-notatie krijg je dan zoiets al de onderstaande figuur.</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/Contact-model.png"><img alt="_images/Contact-model.png" src="_images/Contact-model.png" style="width: 300px;" /></a>
-<p class="caption"><span class="caption-text">E-R model voor Contact</span></p>
+<p class="caption"><span class="caption-text">E-R model voor Contact</span><a class="headerlink" href="#id1" title="Permallink naar deze afbeelding">¶</a></p>
 </div>
 <p>De attributen van de entity <code class="docutils literal notranslate"><span class="pre">Contact</span></code> zijn <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">email</span></code>, <code class="docutils literal notranslate"><span class="pre">telephone</span></code>, en <code class="docutils literal notranslate"><span class="pre">address</span></code>.
 Deze laatste is een samengesteld attribuut, met onder andere het straatadres, de plaats en de postcode.
@@ -146,8 +143,9 @@ deze geeft aan dat een contact meerdere email-adressen en fysieke adressen kan h
 <p>In dit geval gebruiken we nog geen <em>relaties</em> tussen verschillende documenten:
 een document bevat alle gegevens van een contact.</p>
 <blockquote>
-<div>Later kun je dit uitbreiden, bijvoorbeeld met relaties als: <cite>partner</cite>, <cite>employer</cite>, e.d.,
-die verwijzen naar andere contacten.</div></blockquote>
+<div><p>Later kun je dit uitbreiden, bijvoorbeeld met relaties als: <cite>partner</cite>, <cite>employer</cite>, e.d.,
+die verwijzen naar andere contacten.</p>
+</div></blockquote>
 <p>Zoals je later zult zien, kun je dit model direct omzetten in het bijbehorende MongoDB-document.
 In het bijzonder kun je daar ook samengestelde attributen opnemen,
 en meerwaardige (<em>multivalued</em>) attributen.</p>
@@ -161,7 +159,7 @@ deze vinden we dan weer terug in de contacten.</p>
 <p>Ook een <em>event</em> kan nog meer attributen hebben dan hier vermeld.</p>
 <div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="_images/Event-model.png"><img alt="_images/Event-model.png" src="_images/Event-model.png" style="width: 300px;" /></a>
-<p class="caption"><span class="caption-text">E-R model voor Event</span></p>
+<p class="caption"><span class="caption-text">E-R model voor Event</span><a class="headerlink" href="#id2" title="Permallink naar deze afbeelding">¶</a></p>
 </div>
 <p>Voorbeeld van een <em>event</em>:</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;subject&quot;</span><span class="p">:</span> <span class="s2">&quot;Beleidsplan&quot;</span><span class="p">,</span>
@@ -179,22 +177,23 @@ deze vinden we dan weer terug in de contacten.</p>
 <p>In het gecombineerde model geven we de <em>relatie</em> tussen <cite>Contact</cite> en <cite>Event</cite> aan:</p>
 <div class="figure align-center" id="id3">
 <a class="reference internal image-reference" href="_images/Contact-event-relatie.png"><img alt="_images/Contact-event-relatie.png" src="_images/Contact-event-relatie.png" style="width: 500px;" /></a>
-<p class="caption"><span class="caption-text">E-R model met Contact-Event relatie</span></p>
+<p class="caption"><span class="caption-text">E-R model met Contact-Event relatie</span><a class="headerlink" href="#id3" title="Permallink naar deze afbeelding">¶</a></p>
 </div>
 <p>De notatie van de relatie met de dubbele lijn geeft aan dat dit een meervoudige relatie is:</p>
 <blockquote>
-<div>Bij E-R modelleren gebruik je vaak werkwoorden voor relaties (en attributen).
-In plaats van over <code class="docutils literal notranslate"><span class="pre">participant</span></code> spreek je dan over <code class="docutils literal notranslate"><span class="pre">participates</span> <span class="pre">in</span></code>.</div></blockquote>
+<div><p>Bij E-R modelleren gebruik je vaak werkwoorden voor relaties (en attributen).
+In plaats van over <code class="docutils literal notranslate"><span class="pre">participant</span></code> spreek je dan over <code class="docutils literal notranslate"><span class="pre">participates</span> <span class="pre">in</span></code>.</p>
+</div></blockquote>
 <div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Te doen</p>
+<p class="admonition-title">Te doen</p>
 <p>De naamgeving van de attributen is nog niet consistent,
 in het model en in de implementatie.
 Voor <em>events</em> zijn er twee soorten globale schema’s:
 xCal, het uitwisselingsformaat voor iCal (en andere kalendersystemen);
 en Event van schema.org.</p>
-<ul class="last simple">
-<li>xCal: Summary en (uitgebreider) Description; daarnaast Attendee en Organizer.</li>
-<li>Event: Name en (uitgebreider) Description.</li>
+<ul class="simple">
+<li><p>xCal: Summary en (uitgebreider) Description; daarnaast Attendee en Organizer.</p></li>
+<li><p>Event: Name en (uitgebreider) Description.</p></li>
 </ul>
 </div>
 <div class="section" id="over-adressen">
@@ -223,7 +222,7 @@ bijvoorbeeld als je de agenda/contact-toepassing wilt combineren met navigatie.<
       &copy;2018, Eelco Dijkstra.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

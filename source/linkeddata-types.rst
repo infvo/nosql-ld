@@ -40,7 +40,7 @@ In dat geval heb je naast ``@type`` ook ``@id`` nodig, om de webnaam (URI of IRI
        "@type": "@id"
      }
     },
-   "@type": "https://schema.org/Person"
+   "@type": "https://schema.org/Person",
    "name": "Hans de Jong",
    "tel": "06-1234 5599",
    "age": 35,

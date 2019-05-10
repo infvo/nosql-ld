@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Linked Data: vervolg &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,8 +11,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
     <link rel="next" title="ToDo" href="todo.html" />
@@ -49,8 +47,8 @@
 <li class="toctree-l1"><a class="reference internal" href="inleiding.html">Inleiding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="voorbeeld-model.html">Voorbeeld-model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB modelleren</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-mongodb.html">Linked Data en MongoDB</a></li>
@@ -78,8 +76,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Zoek" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -96,23 +92,23 @@
 Dit maakt de uitwisseling van gegevens en het koppelen van databases mogelijk.</p>
 <p>Maar dat is nog maar het begin:</p>
 <ul class="simple">
-<li>met Linked Data kun je betekenis toevoegen aan gegevens, op zo’n manier dat computers hiermee kunnen “rekenen”.
-Denk bijvoorbeeld aan een bestand met familierelaties: je kunt dan ook queries vragen over relaties die niet direct in de database opgeslagen zijn.</li>
-<li>met Linked Data kun je factorisatie (normalisatie) over databases heen uitvoeren:
+<li><p>met Linked Data kun je betekenis toevoegen aan gegevens, op zo’n manier dat computers hiermee kunnen “rekenen”.
+Denk bijvoorbeeld aan een bestand met familierelaties: je kunt dan ook queries vragen over relaties die niet direct in de database opgeslagen zijn.</p></li>
+<li><p>met Linked Data kun je factorisatie (normalisatie) over databases heen uitvoeren:
 je kunt ervoor zorgen dat gegevens maar 1 maal opgeslagen worden,
 en dat andere databases automatisch deze gegevens gebruikt,
 waardoor een lokale update niet nodig is.
 (Denk bijvoorbeeld hoeveel databases jouw adresgegevens hebben opgeslagen;
-als je verhuist, moeten op de een of andere manier al die databases bijgewerkt worden.)</li>
-<li>met Linked Data kun je ervoor zorgen dan jouw data van jou blijft:
+als je verhuist, moeten op de een of andere manier al die databases bijgewerkt worden.)</p></li>
+<li><p>met Linked Data kun je ervoor zorgen dan jouw data van jou blijft:
 anderen kunnen jouw data raadplegen als dat nodig is, en als dat van jou mag -
 zonder dat ze een lokale kopie hiervan hoeven bij te houden.
 (In het kader van de privacywetgeving is het bewaren van persoonlijke gegevens veel lastiger geworden:
 met Linked Data hoeft dat niet meer, dan kunnen deze gegevens opgevraagd worden als het nodig is.)
-(<em>Opmerking</em>: het is wel handig als je hierbij gebruik maakt van efficiënte caching en synchronisatie.)</li>
-<li>een mogelijke infrastructuur hiervoor is de “persoonlijke Pod”,
-zoals ontwikkeld door Solid(MIT)/Inrupt.</li>
-<li>in het web wordt Linked Data gebruikt om het zoekproces te verbeteren:</li>
+(<em>Opmerking</em>: het is wel handig als je hierbij gebruik maakt van efficiënte caching en synchronisatie.)</p></li>
+<li><p>een mogelijke infrastructuur hiervoor is de “persoonlijke Pod”,
+zoals ontwikkeld door Solid(MIT)/Inrupt.</p></li>
+<li><p>in het web wordt Linked Data gebruikt om het zoekproces te verbeteren:</p></li>
 </ul>
 <div class="section" id="globale-normalisatie">
 <h2>Globale normalisatie<a class="headerlink" href="#globale-normalisatie" title="Permalink naar deze titel">¶</a></h2>
@@ -125,10 +121,11 @@ Als dit in allerlei databases opgeslagen is, dan moeten deze bij een verhuizing 
 Als deze databases gebruik kunnen maken van dezelfde “bron” voor deze gegevens,
 dan hoeft deze verandering alleen maar bij deze bron plaats te vinden.</p>
 <blockquote>
-<div>Een ander argument is dat deze gegevens dan minder ruimte in beslag nemen,
+<div><p>Een ander argument is dat deze gegevens dan minder ruimte in beslag nemen,
 omdat je allerlei duplicaten voorkomt.
 Dit argument is tegenwoordig, met de sterk gedaalde kosten van gegensopslag,
-minder relevant.</div></blockquote>
+minder relevant.</p>
+</div></blockquote>
 </div>
 <div class="section" id="gegevens-met-betekenis">
 <h2>Gegevens met betekenis<a class="headerlink" href="#gegevens-met-betekenis" title="Permalink naar deze titel">¶</a></h2>
@@ -168,7 +165,7 @@ Met behulp van Linked Data, in verschillende vormen (microdata, RDF, JSON-LD, en
       &copy;2018, Eelco Dijkstra.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

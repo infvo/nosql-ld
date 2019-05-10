@@ -1,24 +1,22 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>MongoDB modelleren &#8212; NoSQL-LD  documentatie</title>
+    <meta charset="utf-8" />
+    <title>MongoDB fysiek model &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
-    <link rel="next" title="Linked Data" href="linkeddata.html" />
-    <link rel="prev" title="MongoDB schema" href="nosql-schema.html" />
+    <link rel="next" title="MongoDB schema" href="nosql-schema.html" />
+    <link rel="prev" title="NoSQL: MongoDB" href="nosql.html" />
 
 <script type="application/json" class="js-hypothesis-config">
 {
@@ -49,11 +47,15 @@
 <li class="toctree-l1"><a class="reference internal" href="inleiding.html">Inleiding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="voorbeeld-model.html">Voorbeeld-model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
-<li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MongoDB modelleren</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MongoDB fysiek model</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#samengesteld-attribuut">Samengesteld attribuut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#meerwaardig-attribuut">Meerwaardig attribuut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#relatie-embedding-of-referencing">Relatie: embedding of referencing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#relatie-patronen">Relatie-patronen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vergelijking-met-relationele-databases">Vergelijking met relationele databases</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-mongodb.html">Linked Data en MongoDB</a></li>
@@ -65,8 +67,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="nosql-schema.html" title="vorig hoofdstuk">MongoDB schema</a></li>
-      <li>Next: <a href="linkeddata.html" title="volgend hoofdstuk">Linked Data</a></li>
+      <li>Previous: <a href="nosql.html" title="vorig hoofdstuk">NoSQL: MongoDB</a></li>
+      <li>Next: <a href="nosql-schema.html" title="volgend hoofdstuk">MongoDB schema</a></li>
   </ul></li>
 </ul>
 </div>
@@ -76,8 +78,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Zoek" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -88,43 +88,180 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="mongodb-modelleren">
-<h1>MongoDB modelleren<a class="headerlink" href="#mongodb-modelleren" title="Permalink naar deze titel">¶</a></h1>
-<p>Bij het ontwerp van een MongoDB database heb je voor deel-documenten de keuze tussen <em>embedding</em> en <em>referencing</em>.
-<em>Embedding</em> betekent dat je het deel-document opneemt in een omvattend document;
-het deel-document heeft dan geen eigen key (<cite>_id</cite>).
-Bij <em>referencing</em> is het deel-document een zelfstandig document, met een eigen key (<cite>_id</cite>).</p>
-<p>Wat zijn de overwegingen bij het kiezen tussen deze alternatieven?</p>
+  <div class="section" id="mongodb-fysiek-model">
+<h1>MongoDB fysiek model<a class="headerlink" href="#mongodb-fysiek-model" title="Permalink naar deze titel">¶</a></h1>
+<p>Bij het omzetten van een conceptueel model naar een fysiek model in de vorm van een MongoDB-database heb je meer mogelijkheden dan bij een relationele database.</p>
+<p>In de eerste plaats kun je in MongoDB samengestelde attributen (<em>composite attributes</em>) en
+meerwaardige attributen (<em>multivalued attributes</em>) direct in een document weergeven.
+Daarnaast kun je voor relaties kiezen tussen <em>embedding</em> en <em>referencing</em>.</p>
+<div class="section" id="samengesteld-attribuut">
+<h2>Samengesteld attribuut<a class="headerlink" href="#samengesteld-attribuut" title="Permalink naar deze titel">¶</a></h2>
+<p>Een voorbeeld van een samengesteld attribuut is een <em>address</em>:
+dit bestaan uit de deel-attributen <em>street</em>, <em>city</em> en <em>postcode</em>.
+In MongoDB kun je een samengesteld attribuut als deel-document in een document opnemen (<em>embedden</em>),
+bijvoorbeeld:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;F.G. Schuitema&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;fg@schuitema.com&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;street&quot;</span><span class="p">:</span> <span class="s2">&quot;Eikenlaan 23&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;Amsterdam&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;postcode&quot;</span><span class="p">:</span> <span class="s2">&quot;1001 AB&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="meerwaardig-attribuut">
+<h2>Meerwaardig attribuut<a class="headerlink" href="#meerwaardig-attribuut" title="Permalink naar deze titel">¶</a></h2>
+<p>In het contacten-voorbeeld kan een <em>contact</em> meerdere email-adressen hebben.
+<code class="docutils literal notranslate"><span class="pre">email</span></code> is daar een <em>meerwaardig attribuut</em> (<em>multivalued attribute</em>).
+In MongoDB geef je dit weer door middel van een <em>array</em>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;F.G. Schuitema&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;email&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;fg@schuitema.com&quot;</span><span class="p">,</span> <span class="s2">&quot;fred.schuitema@gmail.com&quot;</span><span class="p">],</span>
+ <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;street&quot;</span><span class="p">:</span> <span class="s2">&quot;Eikenlaan 23&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;Amsterdam&quot;</span><span class="p">,</span>
+             <span class="nt">&quot;postcode&quot;</span><span class="p">:</span> <span class="s2">&quot;1001 AB&quot;</span>
+            <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Soms wil je onderscheid maken tussen de verschillende soorten waarden,
+zoals tussen een privé-emailadres en een zakelijk email-adres.
+Dit modelleer je door van elk email-adres een samengesteld attribuut te maken,
+met een extra attribuut om het type aan te geven.</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="admonition-title">Te doen</p>
+<p>voorbeeld van meerwaardig attribuut met onderscheid.</p>
+</div>
+</div>
+<div class="section" id="relatie-embedding-of-referencing">
+<h2>Relatie: embedding of referencing<a class="headerlink" href="#relatie-embedding-of-referencing" title="Permalink naar deze titel">¶</a></h2>
+<p>Voor een relatie van entiteit A naar entiteit B heb je twee mogelijkheden:</p>
 <ul class="simple">
-<li>als het deel-document een zelfstandige entiteit betreft, die je ook los van het omvattende document kunt gebruiken,
-dan kies je voor <em>referencing</em>.</li>
-<li><dl class="first docutils">
-<dt>als het deel-document in</dt>
-<dd><ul class="first last">
-<li>verschillende omvattende documenten kunnen naar hetzelfde deel-document verwijzen,
-en zo gegevens delen;</li>
-<li>voor onderdelen van het deel-document kun je <em>embedding</em> gebruiken,
-als <em>caching</em>.</li>
+<li><p><em>referencing</em>: verwijs vanuit het A-document naar het B-document, via de <em>foreign key</em> van B;</p></li>
+<li><p><em>embedding</em>: neem het B-document op als deel-document van het A-document.</p></li>
 </ul>
-</dd>
-</dl>
-</li>
-<li>als het deel-document alleen relevant is als onderdeel van het omvattende document,
-dan gebruik je <em>embedding</em>.</li>
+<p><em>Opmerking:</em> eigenlijk is er sprake van een relatie <em>tussen</em> A en B.
+Afhankelijk van de aard van de relatie kun je dit weergeven als een relatie van A naar B,
+van B naar A, of allebeide; zie verderop.</p>
+<p>Als eerste voorbeeld gebruiken we de relatie <code class="docutils literal notranslate"><span class="pre">attends</span></code> tussen Event en Contact.
+We willen deze weergeven als een relatie van Event naar Contact:
+een Event bevat een lijst van <code class="docutils literal notranslate"><span class="pre">attendee</span></code> s.</p>
+<div class="section" id="referencing">
+<h3>Referencing<a class="headerlink" href="#referencing" title="Permalink naar deze titel">¶</a></h3>
+<p>De eerste mogelijkheid is een lijst (array) <em>references</em> van Event naar Contact.
+Als reference van een contact gebruiken we de key daarvan;
+in een event-document is dat een <em>foreign key</em>.</p>
+<p>Voorbeeld:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3304cd09dd5773bee4f04&#39;</span><span class="p">),</span>
+  <span class="s1">&#39;subject&#39;</span><span class="p">:</span> <span class="s1">&#39;Beleidsplan&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+  <span class="s1">&#39;duration&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+  <span class="s1">&#39;participants&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3dfe0f58e1b79c042122a&#39;</span><span class="p">),</span>
+               <span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3dfe0f58e1b79c0421230&#39;</span><span class="p">)],</span>
+  <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;Seats2Meet Den Bosch&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Dit event-document verwijst naar de volgende contact-documenten:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3dfe0f58e1b79c042122a&#39;</span><span class="p">),</span>
+ <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Hans de Boer&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;hdb@example.com&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;tel&#39;</span><span class="p">:</span> <span class="s1">&#39;06-1290 8746&#39;</span><span class="p">}</span>
+
+<span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3dfe0f58e1b79c0421230&#39;</span><span class="p">),</span>
+ <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Adrie Vierhuis&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;a34huis@gmail.com&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;street&#39;</span><span class="p">:</span> <span class="s1">&#39;Beukenweg 12&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="s1">&#39;Rotterdam&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;postcode&#39;</span><span class="p">:</span> <span class="s1">&#39;2001 BC&#39;</span><span class="p">},</span>
+ <span class="s1">&#39;tel&#39;</span><span class="p">:</span> <span class="s1">&#39;010-123 123 9&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Met behulp van de key (<code class="docutils literal notranslate"><span class="pre">ObjectId(...)</span></code>) kun je het bijbehorende contact-document opzoeken.
+Dit opzoeken moet je in MongoDB in de toepassing programmeren:
+MongoDB heeft geen <em>join</em>-opdracht.</p>
+<p>Voorbeeld: toevoegen van de namen van de deelnemers aan een afspraak.
+We nemen hierbij aan dat de database <em>consistent</em> is:
+de objecten waarnaar verwezen wordt bestaan in de database.
+in MongoDB moet je er (via de toepassingen) zelf voor zorgen dat de database consistent blijft.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">addNames</span><span class="p">(</span><span class="n">agendaItem</span><span class="p">):</span>
+    <span class="n">participants</span> <span class="o">=</span> <span class="n">eventItem</span><span class="p">[</span><span class="s2">&quot;participants&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">participants</span><span class="p">:</span>
+        <span class="n">pList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">contacts</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">person</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]}))</span> <span class="c1">## (1) find</span>
+        <span class="n">person</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pList</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>  <span class="c1">## (2) toevoegen van naam</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gedeeltelijke-embedding">
+<h3>Gedeeltelijke embedding<a class="headerlink" href="#gedeeltelijke-embedding" title="Permalink naar deze titel">¶</a></h3>
+<p>Bij het tonen van een afspraak in een agenda wil je ook de namen en mail-adressen van de deelnemers laten zien.
+Het is omslachtig om hiervoor steeds de betreffende contact-documenten op te zoeken.
+Een mogelijke optimalisatie is het <em>embedden</em> van deze velden in het event-document van de afspraak.
+Je krijgt dan de volgende situatie:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3304cd09dd5773bee4f04&#39;</span><span class="p">),</span>
+ <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="s1">&#39;Beleidsplan&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2019</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+ <span class="s1">&#39;duration&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+ <span class="s1">&#39;participants&#39;</span><span class="p">:</span> <span class="p">[{</span><span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;hdb@example.com&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3dfe0f58e1b79c042122a&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Hans de Boer&#39;</span><span class="p">},</span>
+                  <span class="p">{</span><span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;a34huis@gmail.com&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="s1">&#39;5cd3dfe0f58e1b79c0421230&#39;</span><span class="p">),</span>
+                   <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Adrie Vierhuis&#39;</span><span class="p">}],</span>
+ <span class="s1">&#39;location&#39;</span><span class="p">:</span> <span class="s1">&#39;Seats2Meet Den Bosch&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Merk op dat deze vorm <em>niet genormaliseerd</em> is:
+de namen en mail-adressen van deze contacten staan zowel in het event-document als in de bijbehorende contact-documenten.
+Maar omdat deze gegevens niet veranderen vormt dat geen risico voor de consistentie.</p>
+</div>
+<div class="section" id="embedding">
+<h3>Embedding<a class="headerlink" href="#embedding" title="Permalink naar deze titel">¶</a></h3>
+<div class="admonition-todo admonition" id="index-1">
+<p class="admonition-title">Te doen</p>
+<p>Voorbeeld(en) van volledige embedding (van een Entiteit).</p>
+<ul class="simple">
+<li><p>(samengesteld attribuut: adres)</p></li>
+<li><p>agenda-item (event) met contactgegevens: email-adres, tel.nr.; versus contact als zelfstandig</p></li>
+<li><p>agenda-item met gedeeltelijke contactgegevens (partial embedding).</p></li>
+<li><p>order met order-lines (mogelijk ook samengesteld attribuut)</p></li>
 </ul>
-<p>Je kunt voor <em>referencing</em> kiezen in combinatie met embedding van enkele onderdelen.</p>
-<p>&lt;&lt;fig embedding&gt;&gt;</p>
-<p>&lt;&lt;fig referencing&gt;&gt;</p>
-<p>Voorbeeld: in het geval van de agenda-(event)database gebruiken we <em>referencing</em> voor de documenten van de deelnemers.
-Maar voor enkele onderdelen van deze deelnemer-documenten gebruiken we <em>embedding</em>:
-we nemen bijvoorbeeld de namen van de deelnemers op in het agenda-(event)-document.
-De overwegingen hierbij zijn:
-(i) bij het gebruik van een event-document hebben we vrijwel altijd de namen van de deelnemers nodig;
-(ii) de naam van een persoon in het persoon-document verandert niet.</p>
-<blockquote>
-<div>We hebben hier mogelijk een probleem als de naam van een persoon eventueel wel verandert.
-Maar: (i) we kunnen altijd stellen dat het de naam van de persoon ten tijde van het maken van de afspraak was;
-(ii) of, we kunnen met een lage-prioriteit proces dergelijke veranderingen in de rest van de database doorvoeren.</div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="relatie-patronen">
+<h2>Relatie-patronen<a class="headerlink" href="#relatie-patronen" title="Permalink naar deze titel">¶</a></h2>
+<p>We geven hier een aantal handige patronen voor het weergeven van relaties in MongoDB.
+Elk patroon heeft voor- en nadelen;
+het hangt van de omstandigheden af of een bepaald patroon een geschikte keuze is.</p>
+<p>In het conceptuele model zijn relaties symmetrisch, dat wil zeggen:
+je spreekt over een relatie <em>tussen</em> A en B.
+Je kunt deze in de database weergeven als een relatie van A naar B,
+van B naar A, of beide.
+Als je alleen de relatie van A naar B in de database opneemt,
+heb je een zoekopdracht nodig om de relatie van B naar A te reconstrueren.</p>
+<p>Voorbeeld: we geven de relatie <em>participates in</em> weer door de <code class="docutils literal notranslate"><span class="pre">participants</span></code> op te nemen in de event-documenten.
+Als we willen weten wat de events waaraan een bepaald persoon deelneemt,
+moeten we in de event-collection zoeken naar documenten met deze persoon als <code class="docutils literal notranslate"><span class="pre">participant</span></code>.
+Dit zoeken kunnen we versnellen door voor <code class="docutils literal notranslate"><span class="pre">participants</span></code> een index op te nemen.</p>
+<ul class="simple">
+<li><p>1-1: je kunt hier zowel kiezen voor embedding als voor referencing;</p></li>
+<li><p>1-N: in het algemeen: handiger om embedding/referencing te doen aan de N-kant,
+zodat je een embedding of referencing van een enkel document krijgt;</p></li>
+<li><p>N-M: (de oplossing voor relationele databases is om hier een extra tabel voor te maken).
+Als één van de N of M klein is (tientallen) en niet of nauwelijks groeit,
+dan kun je “de andere kant” gebruiken voor embedding of referencing.
+(NB: dit geval staat niet in de lijst van patterns van MongoDB.)</p></li>
+</ul>
+<p><em>Opmerking:</em> hoewel je in MongoDB arrays kunt opnemen in een document,
+zijn grote arrays die veranderen en groeien minder efficiënt.
+Je gebruikt dan bij voorkeur de referentie die klein is en/of weinig verandert.
+<em>Voorbeeld:</em> het aantal deelnemers van een bijeenkomst (agenda-item) is klein, en verandert nauwelijks.
+Het aantal bijeenkomsten per persoon in een agenda is groot, en verandert regelmatig.
+Dan geef je de relatie tussen personen en agenda-items weer als verwijzing van agenda-item naar persoon.</p>
+</div>
 <div class="section" id="vergelijking-met-relationele-databases">
 <h2>Vergelijking met relationele databases<a class="headerlink" href="#vergelijking-met-relationele-databases" title="Permalink naar deze titel">¶</a></h2>
 <p>Bij relationele databases ligt de nadruk op <em>consistentie</em>,
@@ -133,8 +270,7 @@ Een MongoDB database is <em>eventual consistent</em>:
 de database wordt wel consistent, maar voor de gebruikers kan het even duren voordat veranderingen zichtbaar zijn.</p>
 <p>Bij MongoDB ga je uit van kennis van de gebruikte toepassing(en):
 je weet dan welke queries veel voorkomen, en je past het ontwerp van de database daarop aan.
-Een relationele database is veel minder gericht op specifieke toepassingen,
-of op bepaalde queries.</p>
+Een relationele database is onafhankelijk van de toepassingen.</p>
 <p>Of een entiteit een “zelfstandig document” is of niet, hangt af van het domein dat je modelleert.</p>
 <p>In principe kun je een Entity-Relationship-model ook gebruiken voor een MongoDB-database.</p>
 <p>(Soms wordt er -in een E-R-model- een onderscheid gemaakt tussen een <em>strong entity</em> en een <em>weak entity</em>.
@@ -146,6 +282,51 @@ Deze kun je in MongoDB rechtstreeks in het document opnemen.
 <p>(Voorbeeld: OrderItem als onderdeel van Order; of Participant als onderdeel van Event;
 of Address als onderdeel van Contact?)</p>
 <p>Zie ook: MongoDB modeling,</p>
+<div class="section" id="normalisatie-of-niet">
+<h3>Normalisatie (of niet)<a class="headerlink" href="#normalisatie-of-niet" title="Permalink naar deze titel">¶</a></h3>
+<p>Een relationele database probeer je zoveel mogelijk te normaliseren.
+Dit betekent dat je elk gegeven maar één keer in de database opneemt.
+Als dat gegeven verandert, hoef je dat maar één plaats in de database aan te passen.
+Deze aanpak stelt daarmee de consistentie en integriteit van de database voorop.</p>
+<p>Een nadeel van deze aanpak is dat je vaak gegevens uit meerdere tabellen moet combineren.
+Dit gaat ten koste van de <em>beschikbaarheid</em> van de gegevens (snelheid van toegang).</p>
+<p>In MongoDB staat in het algemeen de beschikbaarheid voorop;
+onmiddellijke consistentie is minder van belang.
+Door het embedden van eenzelfde gegeven in meerdere documenten krijg je een redundante vorm.
+Het aanpassen van dit gegeven op een consistente manier is lastig, en kost meer tijd;
+maar voor typische MongoDB-toepassingen is dat minder belangrijk.</p>
+<p>Voor gegevens die op meerdere plaatsen gebruikt worden kun je in MongoDB kiezen voor een genormaliseerde vorm,
+door het gebruik van <em>referencing</em>;
+of voor een niet-genormaliseerde vorm, door het gebruik van <em>embedding</em>.</p>
+</div>
+<div class="section" id="id1">
+<h3>Samengesteld attribuut<a class="headerlink" href="#id1" title="Permalink naar deze titel">¶</a></h3>
+<p>In een relationele database kun je een samengesteld attribuut <em>embedden</em> door het “plat te slaan”.
+Je combineert bijvoorbeeld de namen van het attribuut en van de deelattributen tot nieuwe kolomnamen,
+zoals <code class="docutils literal notranslate"><span class="pre">address_street</span></code>, <code class="docutils literal notranslate"><span class="pre">address_city</span></code>, <code class="docutils literal notranslate"><span class="pre">address_postcode</span></code>.
+Het oorspronkelijke deel-document vind je dan niet meer terug.</p>
+</div>
+<div class="section" id="id2">
+<h3>Meerwaardig attribuut<a class="headerlink" href="#id2" title="Permalink naar deze titel">¶</a></h3>
+<p>In een relationele database kun je meerwaardige attributen niet direct opnemen.
+Je moet daarvoor een aparte tabel introduceren.</p>
+</div>
+<div class="section" id="relaties-tussen-entiteiten">
+<h3>Relaties tussen entiteiten<a class="headerlink" href="#relaties-tussen-entiteiten" title="Permalink naar deze titel">¶</a></h3>
+<p>Bij een relationele database heeft een Entiteit altijd een eigen tabel.
+Een relatie geef je dan weer via een <em>foreign key</em>-verwijzing.</p>
+</div>
+<div class="section" id="join">
+<h3>Join<a class="headerlink" href="#join" title="Permalink naar deze titel">¶</a></h3>
+<p>In SQL gebruik je de join-opdracht voor het combineren van gegevens uit verschillende tabellen.
+Dit is een operatie van het database-systeem, deze hoef je niet in de toepassing uit te werken.</p>
+</div>
+<div class="section" id="consistentie">
+<h3>Consistentie<a class="headerlink" href="#consistentie" title="Permalink naar deze titel">¶</a></h3>
+<p>Een relationeel database-systeem (RDBMS) bewaakt de <em>constraints</em> van de database,
+zoals de aanwezigheid van records (rijen) waarvoor elders een verwijzing (via een foreign key) bestaat.
+De consistentie van de database hangt dan niet af van de gebruikers of de gebruikerstoepassingen.</p>
+</div>
 </div>
 </div>
 
@@ -159,7 +340,7 @@ of Address als onderdeel van Contact?)</p>
       &copy;2018, Eelco Dijkstra.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Linked Data &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,12 +11,12 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
     <link rel="next" title="Types in Linked Data" href="linkeddata-types.html" />
-    <link rel="prev" title="MongoDB modelleren" href="mongodb-modelleren.html" />
+    <link rel="prev" title="MongoDB schema" href="nosql-schema.html" />
 
 <script type="application/json" class="js-hypothesis-config">
 {
@@ -49,11 +47,13 @@
 <li class="toctree-l1"><a class="reference internal" href="inleiding.html">Inleiding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="voorbeeld-model.html">Voorbeeld-model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB modelleren</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Linked Data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#hoe-wordt-linked-data-gebruikt">Hoe wordt Linked Data gebruikt?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#referenties">Referenties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#namen-in-linked-data">Namen in Linked Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#types-in-linked-data">Types in Linked Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gebruik-van-linked-data">Gebruik van Linked Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#referenties-en-verdiepding">Referenties en verdiepding</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
@@ -66,7 +66,7 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="mongodb-modelleren.html" title="vorig hoofdstuk">MongoDB modelleren</a></li>
+      <li>Previous: <a href="nosql-schema.html" title="vorig hoofdstuk">MongoDB schema</a></li>
       <li>Next: <a href="linkeddata-types.html" title="volgend hoofdstuk">Types in Linked Data</a></li>
   </ul></li>
 </ul>
@@ -77,8 +77,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Zoek" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -92,33 +90,37 @@
   <div class="section" id="linked-data">
 <h1>Linked Data<a class="headerlink" href="#linked-data" title="Permalink naar deze titel">¶</a></h1>
 <div class="admonition-samenvatting admonition">
-<p class="first admonition-title">Samenvatting</p>
-<p>De namen van de kolommen of eigenschappen hebben gewoonlijk alleen betekenis in de database zelf,
-en in de bijbehorende programma’s.
+<p class="admonition-title">Samenvatting</p>
+<p>De namen van de kolommen of velden hebben alleen betekenis in de database zelf
+en in de bijbehorende toepassingsprogramma’s.
 Buiten deze omgeving hebben de namen geen betekenis:
 dat maakt onder andere het koppelen van gegevens uit verschillende databases lastig.</p>
-<p>Door namen te gebruiken die wereldwijd dezelfde zijn, bij voorkeur met een duidelijke en gestandaardiseerde betekenis,
+<p>Door namen te gebruiken die wereldwijd dezelfde zijn, met een gestandaardiseerde betekenis,
 kunnen we data ook buiten de oorspronkelijke database betekenis geven.
-Deze aanpak van Linked Data is daarmee voor het koppelen van databases wat het internet is voor computernetwerken.</p>
-<p class="last">Door de context voor de interpretatie van de namen van de eigenschappen expliciet te maken,
+Deze aanpak van Linked Data is daarmee voor het koppelen van databases wat het internet is voor het koppelen van computernetwerken.</p>
+<p>Door de context voor de interpretatie van de namen van de velden expliciet te maken,
 maak je deze interpretatie onafhankelijk van de context waarin deze data gebruikt wordt.</p>
 </div>
-<p>Met behulp van een <em>schema</em> kunnen we beschrijven hoe de data in een database eruit ziet.
-De namen van de kolommen (bij een relationele database) of van de eigenschappen (bij een document-database) kunnen we daarbij vrij kiezen.
+<div class="section" id="namen-in-linked-data">
+<h2>Namen in Linked Data<a class="headerlink" href="#namen-in-linked-data" title="Permalink naar deze titel">¶</a></h2>
+<p>Met behulp van een <em>schema</em> beschrijf je de structuur van een database.
+De namen van de kolommen (bij een relationele database) of van de velden (bij een document-database) kunnen we daarbij vrij kiezen.
 Vanuit het database-systeem (DBMS) bezien is de enige eis dat we deze namen consistent gebruiken.</p>
-<p>In plaats van de kolomnaam of eigenschap <code class="docutils literal notranslate"><span class="pre">address</span></code> kunnen we <code class="docutils literal notranslate"><span class="pre">banaan</span></code> gebruiken: voor de computer maakt dat niet uit,
-als we dit deze naam maar consistent gebruiken.</p>
-<p>Een naam als <code class="docutils literal notranslate"><span class="pre">address</span></code> is in eerste instantie bedoeld om de betekenis van de eigenschap voor de menselijke gebruikers van de database duidelijk te maken.
-Daarnaast hebben we vaak nog de mogelijkheid om aan het schema commentaar toe te voegen, als extra documentatie.
-Ook deze is alleen bedoeld voor interpretatie door mensen.</p>
-<p>Deze lokale standaardisatie van de data in de database heeft twee beperkingen:</p>
+<p>In plaats van de kolomnaam of veldnaam <code class="docutils literal notranslate"><span class="pre">address</span></code> kunnen we <code class="docutils literal notranslate"><span class="pre">banaan</span></code> gebruiken: voor de computer maakt dat niet uit,
+als we deze naam maar consistent gebruiken.</p>
+<blockquote>
+<div><p>Een naam als <code class="docutils literal notranslate"><span class="pre">address</span></code> is bedoeld om de betekenis van het veld voor de gebruikers van de database duidelijk te maken.
+Daarnaast kunnen we aan het schema commentaar toevoegen, als extra documentatie.
+Ook deze is alleen bedoeld voor menselijke gebruik.</p>
+</div></blockquote>
+<p>Deze lokale data-naamgeving in de database heeft de volgende beperkingen:</p>
 <ol class="arabic simple">
-<li>deze biedt geen ondersteuning voor de uitwisseling van data, of voor het koppelen van bestanden;</li>
-<li>er is geen interpretatie door computers mogelijk, om bijvoorbeeld een telefoonnummer in de database te koppelen aan de telefoon-applicatie.</li>
+<li><p>geen ondersteuning voor de uitwisseling van data, of voor het koppelen van bestanden;</p></li>
+<li><p>geen interpretatie door computers mogelijk, om bijvoorbeeld een telefoonnummer in de database te koppelen aan de telefoon-applicatie.</p></li>
 </ol>
 <p>Met de Linked Data aanpak die we hier beschrijven los je het eerste probleem op,
 en maak je een belangrijke stap voor het oplossen van het tweede probleem.
-(Hier gaan we op dat laatste niet verder in: je komt dan in de wereld van de Semantische Databases en het Semantische web.)</p>
+(Op dat laatste gaan we hier niet verder in: je komt dan in de wereld van de Semantische Databases en het Semantische web.)</p>
 <p>Linked Data is een middel om de namen en types van velden te standaardiseren zodat data ook buiten de oorspronkelijke database betekenis heeft.
 Hierbij gebruik je de principes van het web voor het beschrijven van data.</p>
 <p>We gebruiken het voorbeeld van de contacten-database om e.e.a. te verduidelijken.</p>
@@ -133,36 +135,38 @@ Hierbij gebruik je de principes van het web voor het beschrijven van data.</p>
 </div>
 <p>Zoals gezegd hebben de namen die we hier gekozen hebben, zoals <code class="docutils literal notranslate"><span class="pre">tel</span></code> en <code class="docutils literal notranslate"><span class="pre">name</span></code>,
 alleen lokale betekenis, binnen deze database en de bijbehorende toepassingsprogramma’s.</p>
-<p>We gebruiken de principes van het web om globale namen te maken.
-Een URI (uniform resource identifier) is een naam in het web:
-deze zorgt voor de identificatie van een <em>resource</em>.
+<p>We gebruiken de <em>principes van het web</em> voor het maken van globale namen.
+Voor naamgeving in het web gebruiken we URI’s (uniform resource identifiers):
+een URI identificeert een <em>resource</em>.
 Een <em>resource</em> is een “ding”: dit kan een concreet iets of iemand zijn,
 maar ook een abstract begrip.
-Een URL is een URI met de extra eigenschap dat je deze als webadres kunt gebruiken.
+Een URL is een URI die je als webadres kunt gebruiken.
 Via een browser kun je dan een document ophalen wat deze resource beschrijft.</p>
 <blockquote>
-<div>Bij Linked Data wordt vaak IRI gebruikt, in plaats van URI:
+<div><p>Een ISBN kun je ook als URI gebruiken, maar dat is geen URL.</p>
+<p>Bij Linked Data wordt vaak IRI gebruikt, in plaats van URI:
 dit heeft onder meer te maken met het gebruik van verschillende soorten talen,
-bijvoorbeeld talen die van rechts naar links gelezen worden.</div></blockquote>
-<p>Schema.org beschrijft op deze manier een groot aantal begrippen,
+bijvoorbeeld talen die van rechts naar links gelezen worden.</p>
+</div></blockquote>
+<p>Schema.org beschrijft op met behulp van URLs een groot aantal begrippen,
 onder andere begrippen die we in de contacten-database kunnen gebruiken.
 Bijvoorbeeld:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://schema.org/Person">https://schema.org/Person</a></li>
-<li><a class="reference external" href="https://schema.org/familyName">https://schema.org/familyName</a></li>
-<li><a class="reference external" href="https://schema.org/givenName">https://schema.org/givenName</a></li>
-<li><a class="reference external" href="https://schema.org/name">https://schema.org/name</a></li>
-<li><a class="reference external" href="https://schema.org/telephone">https://schema.org/telephone</a></li>
+<li><p><a class="reference external" href="https://schema.org/Person">https://schema.org/Person</a></p></li>
+<li><p><a class="reference external" href="https://schema.org/familyName">https://schema.org/familyName</a></p></li>
+<li><p><a class="reference external" href="https://schema.org/givenName">https://schema.org/givenName</a></p></li>
+<li><p><a class="reference external" href="https://schema.org/name">https://schema.org/name</a></p></li>
+<li><p><a class="reference external" href="https://schema.org/telephone">https://schema.org/telephone</a></p></li>
 </ul>
-<p>We zouden nu deze URLs kunnen gebruiken als de namen van de velden:</p>
+<p>We kunnen deze URLs gebruiken als veldnamen:</p>
 <div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;https://schema.org/name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hans de Jong&quot;</span><span class="p">,</span>
  <span class="nt">&quot;https://schema.org/telephone&quot;</span><span class="p">:</span> <span class="s2">&quot;06-1234 5599&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>We krijgen op deze manier gestandaardiseerde veldnamen, maar ook behoorlijk onleesbare documenten.
-Bedenk bovendien dat we deze veldnamen ook gebruiken in queries e.d.:
-deze lange namen maken de programma’s voor deze database veel minder leesbaar.</p>
-<p>Door middel van een <em>context</em> kunnen we aangeven hoe onze eigen lokale namen gekoppeld zijn aan deze globale namen:
+<p>Zo krijgen we gestandaardiseerde veldnamen, maar ook behoorlijk onleesbare documenten.
+Bedenk dat we deze veldnamen ook gebruiken in queries e.d.:
+zulke lange namen maken de toepassingsprogramma’s voor deze database veel minder leesbaar.</p>
+<p>Door middel van een <em>context</em> kunnen we onze eigen lokale namen koppelen aan deze globale namen:
 (Zie <a class="reference external" href="https://json-ld.org">https://json-ld.org</a>)</p>
 <div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span>
   <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/name&quot;</span><span class="p">,</span>
@@ -174,38 +178,98 @@ deze lange namen maken de programma’s voor deze database veel minder leesbaar.
 </pre></div>
 </div>
 <p>Met behulp van speciale functies, in Python <code class="docutils literal notranslate"><span class="pre">jsonld.expand(doc)</span></code> en <code class="docutils literal notranslate"><span class="pre">jsonld.compact(expandedDoc,</span> <span class="pre">context)</span></code>,
-kun je een compacte vorm omzetten in een uitgebreide vorm (met URIs als namen van eigenschappen) en omgekeerd.</p>
-<div class="section" id="hoe-wordt-linked-data-gebruikt">
-<h2>Hoe wordt Linked Data gebruikt?<a class="headerlink" href="#hoe-wordt-linked-data-gebruikt" title="Permalink naar deze titel">¶</a></h2>
-<p>Waar en op welke manieren wordt Linked Data nu gebruikt?</p>
-<p>In websites, om gestructureerde data (in het html-document) aan te bieden voor zoekmachines.
+kun je een compacte vorm omzetten in een uitgebreide vorm met URIs als namen van eigenschappen en omgekeerd.</p>
+<div class="admonition-regels-voor-linked-data admonition">
+<p class="admonition-title">4 regels voor Linked Data</p>
+<p>Tim Berners-Lee, de uitvinder van het world-wide web, formuleerde de volgende 4 regels voor Linked Data:</p>
+<ol class="arabic simple">
+<li><p>Use URIs as names for things.</p></li>
+<li><p>Use HTTP URIs (<em>URLs</em>) so that people can look up those names.</p></li>
+<li><p>When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL - <em>or JSON-LD</em>).</p></li>
+<li><p>Include links to other URIs, so that they can discover more things.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="types-in-linked-data">
+<h2>Types in Linked Data<a class="headerlink" href="#types-in-linked-data" title="Permalink naar deze titel">¶</a></h2>
+<p>De Linked Data notatie maakt het ook mogelijk om de types van de velden te beschrijven.
+Er zijn twee soorten types in JSON-LD: <em>object types</em>, zoals <code class="docutils literal notranslate"><span class="pre">Person</span></code> of <code class="docutils literal notranslate"><span class="pre">Event</span></code>,
+en <em>data types</em>, zoals <code class="docutils literal notranslate"><span class="pre">integer</span></code>, <code class="docutils literal notranslate"><span class="pre">boolean</span></code>, <code class="docutils literal notranslate"><span class="pre">string</span></code>, maar ook <code class="docutils literal notranslate"><span class="pre">date</span></code>, <code class="docutils literal notranslate"><span class="pre">temperature</span></code>.
+Ook voor types gebruik je weer URIs.</p>
+<p>Met behulp van het <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code>-veld in het document geef je het object-type van het document aan.
+In het onderstaande voorbeeld geeft dit aan dat het document een “Person” beschrijft.</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span>
+  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/name&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/telephone&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/homepage&quot;</span>
+  <span class="p">},</span>
+ <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/Person&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hans de Jong&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;06-1234 5599&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://hans.nl&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Je kunt ook in de context aangeven wat de types zijn van de velden.
+In dat geval heb je naast <code class="docutils literal notranslate"><span class="pre">&#64;type</span></code> ook <code class="docutils literal notranslate"><span class="pre">&#64;id</span></code> nodig, om de webnaam (URI of IRI) aan te geven:</p>
+<div class="highlight-JSON notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;@context&quot;</span><span class="p">:</span>
+  <span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/name&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/telephone&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/age&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;xsd:integer&quot;</span>
+   <span class="p">},</span>
+   <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="nt">&quot;@id&quot;</span><span class="p">:</span> <span class="s2">&quot;http://xmlns.com/foaf/0.1/homepage&quot;</span><span class="p">,</span>
+     <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;@id&quot;</span>
+   <span class="p">}</span>
+  <span class="p">},</span>
+ <span class="nt">&quot;@type&quot;</span><span class="p">:</span> <span class="s2">&quot;https://schema.org/Person&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Hans de Jong&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;06-1234 5599&quot;</span><span class="p">,</span>
+ <span class="nt">&quot;age&quot;</span><span class="p">:</span> <span class="mi">35</span><span class="p">,</span>
+ <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://hans.nl&quot;</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Opmerking:</strong> in het algemeen is het niet verstandig om veranderlijke (“volatile”) gegevens zoals  <code class="docutils literal notranslate"><span class="pre">age</span></code> op te slaan.
+We gebruiken dit hier alleen als type-voorbeeld.</p>
+</div>
+<div class="section" id="gebruik-van-linked-data">
+<h2>Gebruik van Linked Data<a class="headerlink" href="#gebruik-van-linked-data" title="Permalink naar deze titel">¶</a></h2>
+<p>Waar en op welke manieren wordt Linked Data gebruikt?</p>
+<p>In html-documenten (websites), om (semi-)gestructureerde data aan te bieden voor zoekmachines.
 Zie: <a class="reference external" href="https://developers.google.com/search/docs/guides/intro-structured-data">https://developers.google.com/search/docs/guides/intro-structured-data</a>.
 Zoekmachines kunnen dan bijvoorbeeld de contactgegevens en de openingstijden van een restaurant op een gestandaardiseerde manier weergeven.
-En je zou dan kunnen zoeken naar restaurants die op een bepaald tijdstip open zijn.</p>
+Daarmee kun je zoeken naar restaurants die op een bepaald tijdstip open zijn.</p>
 <p>In web-APIs, om de data in deze APIs te beschrijven.
-(Zie het voorbeeld in )</p>
+(Zie het voorbeeld in XXX)</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="admonition-title">Te doen</p>
+<p>web-API voorbeeld uitwerken.</p>
+</div>
 <p>In <a class="reference external" href="https://www.wikidata.org">Wikidata</a>, voor de gestructureerde data rond Wikipedia e.d.
 Zie ook: <a class="reference external" href="https://www.wikidata.org/wiki/Wikidata:Data_access">Wikidata data access</a>.</p>
 </div>
-<div class="section" id="referenties">
-<h2>Referenties<a class="headerlink" href="#referenties" title="Permalink naar deze titel">¶</a></h2>
+<div class="section" id="referenties-en-verdiepding">
+<h2>Referenties en verdiepding<a class="headerlink" href="#referenties-en-verdiepding" title="Permalink naar deze titel">¶</a></h2>
 <p>De vier regels voor Linked Data van Tim Berners-Lee (de uitvinder van het web):</p>
 <ol class="arabic simple">
-<li>Use URIs as names for things.</li>
-<li>Use HTTP URIs (<em>URLs</em>) so that people can look up those names.</li>
-<li>When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL - <em>or JSON-LD</em>).</li>
-<li>Include links to other URIs. so that they can discover more things.</li>
+<li><p>Use URIs as names for things.</p></li>
+<li><p>Use HTTP URIs (<em>URLs</em>) so that people can look up those names.</p></li>
+<li><p>When someone looks up a URI, provide useful information, using the standards (RDF*, SPARQL - <em>or JSON-LD</em>).</p></li>
+<li><p>Include links to other URIs, so that they can discover more things.</p></li>
 </ol>
 <ul class="simple">
-<li><a class="reference external" href="https://www.w3.org/DesignIssues/LinkedData.html">Tim Berners-Lee: Linked Data Principles</a></li>
-<li><a class="reference external" href="https://json-ld.org/spec/latest/json-ld-api-best-practices/#bp-summary">linked data-best practices</a></li>
-<li><a class="reference external" href="https://schema.org">https://schema.org</a></li>
-<li><a class="reference external" href="https://json-ld.org">https://json-ld.org</a></li>
-<li><a class="reference external" href="https://moz.com/blog/json-ld-for-beginners">https://moz.com/blog/json-ld-for-beginners</a></li>
-<li><a class="reference external" href="https://datalanguage.com/news/publishing-json-ld-for-developers">https://datalanguage.com/news/publishing-json-ld-for-developers</a></li>
-<li><a class="reference external" href="https://json-ld.org/primer/latest/#example-links-bike-shop">https://json-ld.org/primer/latest/#example-links-bike-shop</a></li>
-<li><a class="reference external" href="https://www.youtube.com/watch?v=UmvWk_TQ30A">https://www.youtube.com/watch?v=UmvWk_TQ30A</a></li>
-<li><a class="reference external" href="https://developers.google.com/search/docs/guides/intro-structured-data">https://developers.google.com/search/docs/guides/intro-structured-data</a></li>
+<li><p><a class="reference external" href="https://www.w3.org/DesignIssues/LinkedData.html">Tim Berners-Lee: Linked Data Principles</a></p></li>
+<li><p><a class="reference external" href="https://json-ld.org/spec/latest/json-ld-api-best-practices/#bp-summary">linked data-best practices</a></p></li>
+<li><p><a class="reference external" href="https://schema.org">https://schema.org</a></p></li>
+<li><p><a class="reference external" href="https://json-ld.org">https://json-ld.org</a></p></li>
+<li><p><a class="reference external" href="https://moz.com/blog/json-ld-for-beginners">https://moz.com/blog/json-ld-for-beginners</a></p></li>
+<li><p><a class="reference external" href="https://datalanguage.com/news/publishing-json-ld-for-developers">https://datalanguage.com/news/publishing-json-ld-for-developers</a></p></li>
+<li><p><a class="reference external" href="https://json-ld.org/primer/latest/#example-links-bike-shop">https://json-ld.org/primer/latest/#example-links-bike-shop</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=UmvWk_TQ30A">https://www.youtube.com/watch?v=UmvWk_TQ30A</a></p></li>
+<li><p><a class="reference external" href="https://developers.google.com/search/docs/guides/intro-structured-data">https://developers.google.com/search/docs/guides/intro-structured-data</a></p></li>
 </ul>
 </div>
 </div>
@@ -220,7 +284,7 @@ Zie ook: <a class="reference external" href="https://www.wikidata.org/wiki/Wikid
       &copy;2018, Eelco Dijkstra.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

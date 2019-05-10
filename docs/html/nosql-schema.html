@@ -1,11 +1,9 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="nl">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>MongoDB schema &#8212; NoSQL-LD  documentatie</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -13,12 +11,12 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/translations.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Zoeken" href="search.html" />
-    <link rel="next" title="MongoDB modelleren" href="mongodb-modelleren.html" />
-    <link rel="prev" title="NoSQL: MongoDB" href="nosql.html" />
+    <link rel="next" title="Linked Data" href="linkeddata.html" />
+    <link rel="prev" title="MongoDB fysiek model" href="mongodb-modelleren.html" />
 
 <script type="application/json" class="js-hypothesis-config">
 {
@@ -49,8 +47,11 @@
 <li class="toctree-l1"><a class="reference internal" href="inleiding.html">Inleiding</a></li>
 <li class="toctree-l1"><a class="reference internal" href="voorbeeld-model.html">Voorbeeld-model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql.html">NoSQL: MongoDB</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MongoDB schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB modelleren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MongoDB schema</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#vergelijking-met-relationele-databases">Vergelijking met relationele databases</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-types.html">Types in Linked Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata-mongodb.html">Linked Data en MongoDB</a></li>
@@ -62,8 +63,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="nosql.html" title="vorig hoofdstuk">NoSQL: MongoDB</a></li>
-      <li>Next: <a href="mongodb-modelleren.html" title="volgend hoofdstuk">MongoDB modelleren</a></li>
+      <li>Previous: <a href="mongodb-modelleren.html" title="vorig hoofdstuk">MongoDB fysiek model</a></li>
+      <li>Next: <a href="linkeddata.html" title="volgend hoofdstuk">Linked Data</a></li>
   </ul></li>
 </ul>
 </div>
@@ -73,8 +74,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Zoek" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -88,32 +87,37 @@
   <div class="section" id="mongodb-schema">
 <h1>MongoDB schema<a class="headerlink" href="#mongodb-schema" title="Permalink naar deze titel">¶</a></h1>
 <div class="admonition-samenvatting admonition">
-<p class="first admonition-title">Samenvatting</p>
+<p class="admonition-title">Samenvatting</p>
 <p>Met een <em>schema</em> beschrijf je de namen en types van de <em>fields</em> (velden) van de <em>documents</em> in een <em>collection</em>.
 Deze <em>consistentie in namen en types</em> vormt de basis voor het efficiënt zoeken in die collection.</p>
-<p class="last">Een MongoDB-schema is gewoonlijk <em>partieel</em>: je legt de minimale eisen aan een document vast.
+<p>Een MongoDB-schema is gewoonlijk <em>partieel</em>: je legt de minimale eisen aan een document vast.
 Een document kan naast het gemeenschappelijke deel extra fields bevatten.
 Als database-ontwerper bepaal je dan zelf de grens tussen de gemeenschappelijke structuur (schema) en het document-eigen deel.</p>
 </div>
 <p>Zoals we gezien hebben heeft in MongoDB elk document in een collection zijn eigen structuur:
 een document is een voorbeeld van <em>self-describing data</em>.
-Dit geeft een grote flexibiliteit, maar het staat het efficiënt zoeken van documenten in de database in de weg.</p>
-<p>Met behulp van een schema beschrijf je welke fields (namen en types) de documents in een collection
+Dit geeft een grote flexibiliteit, maar heeft ook een aantal nadelen:</p>
+<ul class="simple">
+<li><p>een collection bevat “soortgelijke documenten”, maar het is niet duidelijk wat “soortgelijk” is;</p></li>
+<li><p>zoeken gaat efficiënter en effectiever voor gestandaardiseerde veldnamen en types;</p></li>
+<li><p>een tikfout in een veldnaam wordt niet opgemerkt.</p></li>
+</ul>
+<p>Met behulp van een schema voor een collection geef je aan MongoDB op je welke velden (namen en types) de documenten in die collection
 <em>tenminste</em> moeten hebben.
-Deze gemeenschappelijke structuur vormt de basis voor efficiënt zoeken in de collection.
-Naast deze gemeenschappelijke structuur kan een document extra fields bevatten.</p>
+Naast deze gemeenschappelijke structuur kan een document extra velden bevatten.</p>
 <p>MongoDB heeft twee schema-notaties.
 We gebruiken hier de notatie op basis van een <em>query</em>-document:
-alleen documents die aan deze query voldoen zijn toegelaten in de betreffende collection.</p>
+alleen documenten die aan deze query voldoen zijn toegelaten in de betreffende collection.</p>
 <blockquote>
-<div>De andere notatie is met behulp van <a class="reference external" href="https://json-schema.org">JSON-Schema</a> :
-hiermee beschrijf je de structuur van JSON-documenten.</div></blockquote>
-<p>Het onderstaande query-document beschrijft alle documents die een <cite>name</cite> en een <cite>email</cite>- of een <cite>tel</cite>-field hebben (<code class="docutils literal notranslate"><span class="pre">$or</span></code>).
+<div><p>De andere notatie is met behulp van <a class="reference external" href="https://json-schema.org">JSON-Schema</a> :
+hiermee beschrijf je de structuur van JSON-documenten.</p>
+</div></blockquote>
+<p>Het onderstaande query-document beschrijft alle documenten die een <cite>name</cite> en een <cite>email</cite>- of een <cite>telephone</cite>-veld hebben (<code class="docutils literal notranslate"><span class="pre">$or</span></code>).
 In de opdracht daarna koppelen we dit query-document als <em>validator</em> (schema) aan de collection <code class="docutils literal notranslate"><span class="pre">contacts</span></code>.
-Na deze koppeling kun je alleen documents die aan dit schema voldoen aan de collection <code class="docutils literal notranslate"><span class="pre">contacts</span></code> toevoegen.</p>
+Na deze koppeling kun je alleen documenten die aan dit schema voldoen aan de collection <code class="docutils literal notranslate"><span class="pre">contacts</span></code> toevoegen.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">contact_schema</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">},</span>
                   <span class="s2">&quot;$or&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}},</span>
-                          <span class="p">{</span><span class="s2">&quot;tel&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}}</span>
+                          <span class="p">{</span><span class="s2">&quot;telephone&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;$type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">}}</span>
 
                          <span class="p">]}</span>
 <span class="n">db</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;collMod&quot;</span><span class="p">,</span> <span class="s2">&quot;contacts&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="n">contact_schema</span><span class="p">)</span>
@@ -125,7 +129,26 @@ Bovendien kunnen we dit gebruiken als basis voor een <em>index</em> waarmee we e
 <p><strong>Opmerking.</strong>
 De collection kan documents bevatten die niet aan dit schema voldoen,
 als die eerder toegevoegd zijn.
+Dit probleem kan bijvoorbeeld optreden als je het schema voor een collection aanpast.
 Het is aan de databaseprogrammeur om dit probleem op te lossen.</p>
+<div class="section" id="vergelijking-met-relationele-databases">
+<h2>Vergelijking met relationele databases<a class="headerlink" href="#vergelijking-met-relationele-databases" title="Permalink naar deze titel">¶</a></h2>
+<p>Het fysieke schema van een relationele database beschrijft de structuur van de database:
+de tabellen, kolomnamen, kolom-types, en constraints.
+Dit is een beschrijving in een formele notatie (SQL), die door het DBMS verwerkt kan worden.
+Het schema beschrijft welke data in de database opgeslagen worden, en welke data voor de database toelaatbaar zijn.
+Het DBMS bewaakt deze eisen aan de data.</p>
+<blockquote>
+<div><p>Eén van de eisen van Codd aan een relationeel database-systeem is dat een schema zelf ook in een database opgeslagen wordt:
+<em>Rule 4: Dynamic online catalog based on the relational model:
+The data base description (“schema”, ed.) is represented at the logical level in the same way as ordinary data,
+so that authorized users can apply the same relational language to its interrogation as they apply to the regular data.</em>
+(<a class="reference external" href="https://en.wikipedia.org/wiki/Codd%27s_12_rules">https://en.wikipedia.org/wiki/Codd%27s_12_rules</a>)</p>
+</div></blockquote>
+<p>Het schema beschrijft niet wat de <em>betekenis</em> van de kolomnamen is.
+Voor het DBMS speelt deze betekenis geen rol.
+De betekenis voor de gebruiker (en voor de toepassingen) kun je beschrijven in de <em>data dictionary</em>.</p>
+</div>
 </div>
 
 
@@ -138,7 +161,7 @@ Het is aan de databaseprogrammeur om dit probleem op te lossen.</p>
       &copy;2018, Eelco Dijkstra.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.5</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
