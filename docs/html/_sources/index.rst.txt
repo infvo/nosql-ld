@@ -17,9 +17,6 @@ NoSQL - Linked Data
    mongodb-modelleren.rst
    nosql-schema.rst
    linkeddata.rst
-   linkeddata-types.rst
-   linkeddata-mongodb.rst
-   linked-data-vervolg.rst
    todo.rst
 
 
