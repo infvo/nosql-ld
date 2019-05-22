@@ -115,8 +115,8 @@ in AJAX-interacties.
 
 JSON heeft een aantal beperkingen:
 
-* een JSON-object kan *geen functies* bevatten (alleen data);
-* een JSON-object kan geen cykels bevatten (het moet een "plat" object zijn).
+* een JSON-object kan *geen functies* bevatten, alleen data;
+* een JSON-object kan geen cykels (lussen) bevatten: het moet een "plat" object zijn.
 
 Er is geen standaardnotatie voor verwijzingen tussen JSON-objecten:
 dat moet je als programmeur zelf oplossen.
@@ -160,7 +160,7 @@ en in JavaScript:
             }
   }
 
-Zoals je ziet is er een grote overeenkomst tussen de JSON-notatie en de notatie van een Python dictionary.
+Zoals je hierboven ziet is er een grote overeenkomst tussen de JSON-notatie en de notatie van een Python dictionary.
 
   We hebben hier als voorbeeld een eigenschap `age` gebruikt;
   in een database gebruik je de geboortedatum in plaats van een dergelijke tijdsafhankelijke waarde.
@@ -187,7 +187,7 @@ Vergelijking
   +-----------------+--------------+------------+------------+
   | SQL             | MongoDB      | JavaScript | Python     |
   +=================+==============+============+============+
-  | table           | collection   | (array)    | (array)    |
+  | table           | collection   | (array)    | (list)     |
   +-----------------+--------------+------------+------------+
   | row (record)    | document     | object     | dictionary |
   +-----------------+--------------+------------+------------+

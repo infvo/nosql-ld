@@ -17,7 +17,7 @@ NoSQL - Linked Data
    mongodb-modelleren.rst
    nosql-schema.rst
    linkeddata.rst
-   todo.rst
+..   todo.rst
 
 
 Indices and tables

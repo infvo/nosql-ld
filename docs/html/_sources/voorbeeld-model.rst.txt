@@ -61,9 +61,10 @@ Er kunnen later nog (veel) meer attributen toegevoegd worden,
 bijvoorbeeld ``birthDate`` of ``partner``.
 
 Let op de dubbele rand bij ``email`` en ``address``:
-deze geeft aan dat een contact meerdere email-adressen en fysieke adressen kan hebben.
+deze geeft aan dat een contact meerdere email-adressen en fysieke adressen kan hebben
+(*multivalued attribute*).
 
-Merk op dat dit model nog niet beschrijft wat de types van de attribuut-waarden zijn.
+Merk op dat dit model nog niet beschrijft wat de types van de attribuutwaarden zijn.
 
 In dit geval gebruiken we nog geen *relaties* tussen verschillende documenten:
 een document bevat alle gegevens van een contact.
@@ -115,7 +116,7 @@ In het gecombineerde model geven we de *relatie* tussen `Contact` en `Event` aan
 
   E-R model met Contact-Event relatie
 
-De notatie van de relatie met de dubbele lijn geeft aan dat dit een meervoudige relatie is:
+..
 
   Bij E-R modelleren gebruik je vaak werkwoorden voor relaties (en attributen).
   In plaats van over ``participant`` spreek je dan over ``participates in``.
@@ -136,13 +137,13 @@ Over adressen
 
 In het bovenstaande model is een adres geen zelfstandige *entity*,
 maar een attribuut van een *Contact*.
-In andere domeinen zal dit wel het geval zijn,
+In andere toepassingen zal dit wel het geval zijn,
 bijvoorbeeld bij het kadaster en de gemeente.
 Daar wil je allerlei extra gegevens over adressen kunnen bewaren,
 en adressen als zelfstandige *entities* kunnen benaderen,
 niet (alleen) als attribuut van een andere entity.
 
-Dit maakt duidelijk dat het model sterk afhangt van het domein waarin dit model gebruikt wordt.
+Dit maakt duidelijk dat het model sterk afhangt van de toepassing waarin je dit model gebruikt.
 
-In onze toepassing kun je een adres mogelijk ook als zelfstandige entity invoeren,
-bijvoorbeeld als je de agenda/contact-toepassing wilt combineren met navigatie.
+In onze toepassing kun je een adres ook als zelfstandige entity invoeren,
+als je de agenda/contact-toepassing wilt combineren met navigatie.

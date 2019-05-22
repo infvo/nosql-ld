@@ -51,13 +51,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#samengesteld-attribuut">Samengesteld attribuut</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#meerwaardig-attribuut">Meerwaardig attribuut</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#relatie-embedding-of-referencing">Relatie: embedding of referencing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#relatie-patronen">Relatie-patronen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vergelijking-met-relationele-databases">Vergelijking met relationele databases</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo</a></li>
 </ul>
 
 <div class="relations">
@@ -227,9 +225,8 @@ Maar omdat deze gegevens niet veranderen vormt dat geen risico voor de consisten
 </ul>
 </div>
 </div>
-</div>
 <div class="section" id="relatie-patronen">
-<h2>Relatie-patronen<a class="headerlink" href="#relatie-patronen" title="Permalink naar deze titel">¶</a></h2>
+<h3>Relatie-patronen<a class="headerlink" href="#relatie-patronen" title="Permalink naar deze titel">¶</a></h3>
 <p>We geven hier een aantal handige patronen voor het weergeven van relaties in MongoDB.
 Elk patroon heeft voor- en nadelen;
 het hangt van de omstandigheden af of een bepaald patroon een geschikte keuze is.</p>
@@ -249,8 +246,7 @@ Dit zoeken kunnen we versnellen door voor <code class="docutils literal notransl
 zodat je een embedding of referencing van een enkel document krijgt;</p></li>
 <li><p>N-M: (de oplossing voor relationele databases is om hier een extra tabel voor te maken).
 Als één van de N of M klein is (tientallen) en niet of nauwelijks groeit,
-dan kun je “de andere kant” gebruiken voor embedding of referencing.
-(NB: dit geval staat niet in de lijst van patterns van MongoDB.)</p></li>
+dan kun je “de andere kant” gebruiken voor embedding of referencing.</p></li>
 </ul>
 <p><em>Opmerking:</em> hoewel je in MongoDB arrays kunt opnemen in een document,
 zijn grote arrays die veranderen en groeien minder efficiënt.
@@ -258,6 +254,7 @@ Je gebruikt dan bij voorkeur de referentie die klein is en/of weinig verandert.
 <em>Voorbeeld:</em> het aantal deelnemers van een bijeenkomst (agenda-item) is klein, en verandert nauwelijks.
 Het aantal bijeenkomsten per persoon in een agenda is groot, en verandert regelmatig.
 Dan geef je de relatie tussen personen en agenda-items weer als verwijzing van agenda-item naar persoon.</p>
+</div>
 </div>
 <div class="section" id="vergelijking-met-relationele-databases">
 <h2>Vergelijking met relationele databases<a class="headerlink" href="#vergelijking-met-relationele-databases" title="Permalink naar deze titel">¶</a></h2>

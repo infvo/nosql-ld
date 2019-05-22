@@ -167,7 +167,7 @@ Embedding
   * order met order-lines (mogelijk ook samengesteld attribuut)
 
 Relatie-patronen
-================
+----------------
 
 We geven hier een aantal handige patronen voor het weergeven van relaties in MongoDB.
 Elk patroon heeft voor- en nadelen;
@@ -191,7 +191,6 @@ Dit zoeken kunnen we versnellen door voor ``participants`` een index op te nemen
 * N-M: (de oplossing voor relationele databases is om hier een extra tabel voor te maken).
   Als één van de N of M klein is (tientallen) en niet of nauwelijks groeit,
   dan kun je "de andere kant" gebruiken voor embedding of referencing.
-  (NB: dit geval staat niet in de lijst van patterns van MongoDB.)
 
 *Opmerking:* hoewel je in MongoDB arrays kunt opnemen in een document,
 zijn grote arrays die veranderen en groeien minder efficiënt.

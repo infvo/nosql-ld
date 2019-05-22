@@ -56,7 +56,6 @@
 <li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo</a></li>
 </ul>
 
 <div class="relations">
@@ -135,8 +134,9 @@ Deze laatste is een samengesteld attribuut, met onder andere het straatadres, de
 Er kunnen later nog (veel) meer attributen toegevoegd worden,
 bijvoorbeeld <code class="docutils literal notranslate"><span class="pre">birthDate</span></code> of <code class="docutils literal notranslate"><span class="pre">partner</span></code>.</p>
 <p>Let op de dubbele rand bij <code class="docutils literal notranslate"><span class="pre">email</span></code> en <code class="docutils literal notranslate"><span class="pre">address</span></code>:
-deze geeft aan dat een contact meerdere email-adressen en fysieke adressen kan hebben.</p>
-<p>Merk op dat dit model nog niet beschrijft wat de types van de attribuut-waarden zijn.</p>
+deze geeft aan dat een contact meerdere email-adressen en fysieke adressen kan hebben
+(<em>multivalued attribute</em>).</p>
+<p>Merk op dat dit model nog niet beschrijft wat de types van de attribuutwaarden zijn.</p>
 <p>In dit geval gebruiken we nog geen <em>relaties</em> tussen verschillende documenten:
 een document bevat alle gegevens van een contact.</p>
 <blockquote>
@@ -176,7 +176,6 @@ deze vinden we dan weer terug in de contacten.</p>
 <a class="reference internal image-reference" href="_images/Contact-event-relatie.png"><img alt="_images/Contact-event-relatie.png" src="_images/Contact-event-relatie.png" style="width: 500px;" /></a>
 <p class="caption"><span class="caption-text">E-R model met Contact-Event relatie</span><a class="headerlink" href="#id3" title="Permallink naar deze afbeelding">¶</a></p>
 </div>
-<p>De notatie van de relatie met de dubbele lijn geeft aan dat dit een meervoudige relatie is:</p>
 <blockquote>
 <div><p>Bij E-R modelleren gebruik je vaak werkwoorden voor relaties (en attributen).
 In plaats van over <code class="docutils literal notranslate"><span class="pre">participant</span></code> spreek je dan over <code class="docutils literal notranslate"><span class="pre">participates</span> <span class="pre">in</span></code>.</p>
@@ -197,14 +196,14 @@ en Event van schema.org.</p>
 <h3>Over adressen<a class="headerlink" href="#over-adressen" title="Permalink naar deze titel">¶</a></h3>
 <p>In het bovenstaande model is een adres geen zelfstandige <em>entity</em>,
 maar een attribuut van een <em>Contact</em>.
-In andere domeinen zal dit wel het geval zijn,
+In andere toepassingen zal dit wel het geval zijn,
 bijvoorbeeld bij het kadaster en de gemeente.
 Daar wil je allerlei extra gegevens over adressen kunnen bewaren,
 en adressen als zelfstandige <em>entities</em> kunnen benaderen,
 niet (alleen) als attribuut van een andere entity.</p>
-<p>Dit maakt duidelijk dat het model sterk afhangt van het domein waarin dit model gebruikt wordt.</p>
-<p>In onze toepassing kun je een adres mogelijk ook als zelfstandige entity invoeren,
-bijvoorbeeld als je de agenda/contact-toepassing wilt combineren met navigatie.</p>
+<p>Dit maakt duidelijk dat het model sterk afhangt van de toepassing waarin je dit model gebruikt.</p>
+<p>In onze toepassing kun je een adres ook als zelfstandige entity invoeren,
+als je de agenda/contact-toepassing wilt combineren met navigatie.</p>
 </div>
 </div>
 </div>

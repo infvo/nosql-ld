@@ -57,7 +57,6 @@
 <li class="toctree-l1"><a class="reference internal" href="mongodb-modelleren.html">MongoDB fysiek model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nosql-schema.html">MongoDB schema</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linkeddata.html">Linked Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo.html">ToDo</a></li>
 </ul>
 
 <div class="relations">
@@ -182,8 +181,8 @@ JSON wordt onder andere gebruikt voor de uitwisseling van data tussen de browser
 in AJAX-interacties.</p>
 <p>JSON heeft een aantal beperkingen:</p>
 <ul class="simple">
-<li><p>een JSON-object kan <em>geen functies</em> bevatten (alleen data);</p></li>
-<li><p>een JSON-object kan geen cykels bevatten (het moet een “plat” object zijn).</p></li>
+<li><p>een JSON-object kan <em>geen functies</em> bevatten, alleen data;</p></li>
+<li><p>een JSON-object kan geen cykels (lussen) bevatten: het moet een “plat” object zijn.</p></li>
 </ul>
 <p>Er is geen standaardnotatie voor verwijzingen tussen JSON-objecten:
 dat moet je als programmeur zelf oplossen.</p>
@@ -220,7 +219,7 @@ dat moet je als programmeur zelf oplossen.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Zoals je ziet is er een grote overeenkomst tussen de JSON-notatie en de notatie van een Python dictionary.</p>
+<p>Zoals je hierboven ziet is er een grote overeenkomst tussen de JSON-notatie en de notatie van een Python dictionary.</p>
 <blockquote>
 <div><p>We hebben hier als voorbeeld een eigenschap <cite>age</cite> gebruikt;
 in een database gebruik je de geboortedatum in plaats van een dergelijke tijdsafhankelijke waarde.</p>
@@ -259,7 +258,7 @@ en een collection met agenda-documenten.</p>
 <tr class="row-even"><td><p>table</p></td>
 <td><p>collection</p></td>
 <td><p>(array)</p></td>
-<td><p>(array)</p></td>
+<td><p>(list)</p></td>
 </tr>
 <tr class="row-odd"><td><p>row (record)</p></td>
 <td><p>document</p></td>
